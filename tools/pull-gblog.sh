@@ -1,28 +1,15 @@
 #!/bin/bash
 # ============================================================
-# gblog 자동 발행 풀러 v4 — 실패 복구 + 중복 방지 + cron PATH 대응
-#   - 성공 판별: history.json에서 해당 제목의 최신 기록에 error 없음 = 성공
-#   - 실패 시: 20분 후 자동 재시도 (최대 5회, 이후 failed 목록에 기록)
-#   - 하루 2개·3시간 간격, 성공 건만 카운트
-#   - v4: cron 환경에는 node가 PATH에 없을 수 있음 → node 자동 탐지
+# gblog 자동 발행 풀러 v5
+#   - cron 환경 node 자동 탐지
+#   - 성공 판별: gblog-check.js로 history.json 조회 (error 유무)
+#   - 발행은 반드시 PROJ 폴더에서 실행 (cwd 버그 수정)
+#   - 실패 시 20분 후 재시도, 5회 실패 시 failed 목록 등록
+#   - 하루 2개·성공 간격 3시간, 성공 건만 카운트
 # ============================================================
 PROJ="$HOME/g-blogger-auto-publish"
-
-# ── node 자동 탐지 (cron PATH 대응) ──────────────────────────
-if command -v node >/dev/null 2>&1; then
-  export PATH="$(dirname "$(command -v node)"):$PATH"
-elif [ -d "$HOME/.nvm/versions/node" ]; then
-  NV=$(ls -1 "$HOME/.nvm/versions/node" 2>/dev/null | sort -V | tail -1)
-  if [ -n "$NV" ] && [ -x "$HOME/.nvm/versions/node/$NV/bin/node" ]; then
-    export PATH="$HOME/.nvm/versions/node/$NV/bin:$PATH"
-  fi
-fi
-if ! command -v node >/dev/null 2>&1; then
-  echo "[$(date)] ⛔ node를 찾을 수 없습니다 — 스크립트 중단. (node 설치 경로 확인 필요)"
-  exit 0
-fi
-# ──────────────────────────────────────────────────────────────
 QUEUE_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/guides/queue"
+TOOLS_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/tools"
 DAILY_MAX=2
 MIN_GAP=10800          # 성공 간격 3시간
 RETRY_GAP=1200         # 실패 재시도 20분
@@ -32,8 +19,25 @@ STATE="$HOME/.gblog-state.json"
 DONE="$HOME/.gblog-done.txt"
 FAILED="$HOME/.gblog-failed.txt"
 HIST="$PROJ/history.json"
+CHECK="$HOME/.gblog-check.js"
+QDIR="$HOME/.gblog-queue"
 
-cd "$PROJ" || exit 1
+# ── node 자동 탐지 ────────────────────────────────────────────
+if command -v node >/dev/null 2>&1; then
+  export PATH="$(dirname "$(command -v node)"):$PATH"
+elif [ -d "$HOME/.nvm/versions/node" ]; then
+  NV=$(ls -1 "$HOME/.nvm/versions/node" 2>/dev/null | sort -V | tail -1)
+  if [ -n "$NV" ] && [ -x "$HOME/.nvm/versions/node/$NV/bin/node" ]; then
+    export PATH="$HOME/.nvm/versions/node/$NV/bin:$PATH"
+  fi
+fi
+if ! command -v node >/dev/null 2>&1; then
+  echo "[$(date)] node를 찾을 수 없음 — 중단"
+  exit 0
+fi
+
+# ── 헬퍼(gblog-check.js) 항상 최신으로 ─────────────────────────
+curl -sf --max-time 20 "$TOOLS_URL/gblog-check.js" -o "$CHECK" || true
 
 # 뉴스 자동발행 락 대기
 for i in $(seq 1 20); do
@@ -45,21 +49,20 @@ TODAY=$(date +%Y-%m-%d)
 HOUR=$(date +%H)
 NOW=$(date +%s)
 
-# 상태 로드 (node 사용 — VM에 node는 확실히 있음)
+# 상태 로드
+CNT=0; LASTOK=0; LASTATT=0; SDAY=""
 if [ -f "$STATE" ]; then
-  SDAY=$(node -e "console.log(require('$STATE').date||'')" 2>/dev/null)
-  CNT=$(node -e "console.log(require('$STATE').count||0)" 2>/dev/null)
-  LASTOK=$(node -e "console.log(require('$STATE').lastOkTs||0)" 2>/dev/null)
-  LASTATT=$(node -e "console.log(require('$STATE').lastAttemptTs||0)" 2>/dev/null)
-else
-  SDAY=""; CNT=0; LASTOK=0; LASTATT=0
+  SDAY=$(node -e "try{console.log(require('$STATE').date||'')}catch(e){console.log('')}" 2>/dev/null)
+  CNT=$(node -e "try{console.log(require('$STATE').count||0)}catch(e){console.log('0')}" 2>/dev/null)
+  LASTOK=$(node -e "try{console.log(require('$STATE').lastOkTs||0)}catch(e){console.log('0')}" 2>/dev/null)
+  LASTATT=$(node -e "try{console.log(require('$STATE').lastAttemptTs||0)}catch(e){console.log('0')}" 2>/dev/null)
 fi
 [ -z "$CNT" ] && CNT=0
 [ -z "$LASTOK" ] && LASTOK=0
 [ -z "$LASTATT" ] && LASTATT=0
 if [ "$SDAY" != "$TODAY" ]; then CNT=0; LASTOK=0; LASTATT=0; fi
 
-# 심야 or 일일 한도 → 종료
+# 심야·일일 한도
 if [ "${HOUR#0}" -ge "$QUIET_AFTER" ]; then exit 0; fi
 if [ "$CNT" -ge "$DAILY_MAX" ]; then exit 0; fi
 
@@ -69,75 +72,61 @@ let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
   try{ const d=JSON.parse(s); d.filter(f=>f.name.endsWith('.json')).sort((a,b)=>a.name<b.name?-1:1).forEach(f=>console.log(f.name)) }catch(e){}
 })")
 
-mkdir -p "$HOME/.gblog-queue"
-cd "$HOME/.gblog-queue" || exit 1
+mkdir -p "$QDIR"
+cd "$QDIR" || exit 1
 
 for fname in $LIST; do
-  # 이미 완료/실패 처리된 파일 스킵
   grep -q "^$fname$" "$DONE" 2>/dev/null && continue
   grep -q "^$fname$" "$FAILED" 2>/dev/null && continue
 
   curl -sf --max-time 30 "$QUEUE_URL/$fname" -o "$fname" || continue
   [ -s "$fname" ] || continue
 
-  TITLE=$(node -e "const p=require('./$fname');console.log((p[0].headline||p[0].title||''))")
+  TITLE=$(node -e "try{const p=require('./$fname');console.log(p[0].headline||p[0].title||'')}catch(e){console.log('')}" 2>/dev/null)
   [ -z "$TITLE" ] && continue
 
-  # history.json에서 이 제목 상태 확인
-  # ERRCNT = error 기록 수 / OKCNT = error 없는 기록 수
-  read ERRCNT OKCNT <<< $(node -e "
-const fs=require('fs');
-let h=[];try{h=JSON.parse(fs.readFileSync('$HIST','utf8'))}catch(e){}
-const t='$TITLE'.replace(/'/g,\"\\'\"\");
-const recs=h.filter(r=>r.title===t);
-const err=recs.filter(r=>r.error).length;
-const ok=recs.length-err;
-console.log(err, ok);
-" 2>/dev/null)
+  # history 조회 (출력: "OK ERR")
+  OUT=$(node "$CHECK" "$HIST" "$TITLE" 2>/dev/null)
+  OKCNT=$(echo "$OUT" | cut -d' ' -f1)
+  ERRCNT=$(echo "$OUT" | cut -d' ' -f2)
+  [ -z "$OKCNT" ] && OKCNT=0
+  [ -z "$ERRCNT" ] && ERRCNT=0
 
-  # 이미 성공한 적 있음 → DONE 처리하고 다음 파일로
+  # 이미 성공 이력 있음 → 건너뜀
   if [ "$OKCNT" -gt 0 ]; then
     echo "$fname" >> "$DONE"
-    echo "[$(date)] 이미 발행된 글 감지 → 건너뜀: $fname"
+    echo "[$(date)] 이미 발행됨 → 건너뜀: $fname"
     continue
   fi
 
-  # 게이트: 실패 이력 있으면 20분 재시도 간격, 없으면 3시간 성공 간격
-  if [ "$ERRCNT" -gt 0 ]; then
-    GAP=$RETRY_GAP
-  else
-    GAP=$MIN_GAP
-  fi
+  # 게이트
+  if [ "$ERRCNT" -gt 0 ]; then GAP=$RETRY_GAP; else GAP=$MIN_GAP; fi
   DIFF=$((NOW - LASTATT))
-  if [ "$DIFF" -lt "$GAP" ]; then
-    exit 0   # 아직 재시도 시간 전
-  fi
+  if [ "$DIFF" -lt "$GAP" ]; then exit 0; fi
 
-  # 발행 시도
+  # 발행 (반드시 PROJ 폴더에서)
   cp "$fname" "$PROJ/posts.json"
-  echo "[$(date)] 발행 시도 ($((ERRCNT+1))회차): $fname"
-  node publish.js
+  echo "[$(date)] 발행 시도 ($((ERRCNT + 1))회차): $fname"
+  (cd "$PROJ" && node publish.js)
+  RC=$?
 
-  # 재확인: 이제 error 없는 기록이 생겼는지
-  OKNOW=$(node -e "
-const fs=require('fs');
-let h=[];try{h=JSON.parse(fs.readFileSync('$HIST','utf8'))}catch(e){}
-const t='$TITLE'.replace(/'/g,\"\\'\");
-console.log(h.filter(r=>r.title===t && !r.error).length);
-" 2>/dev/null)
+  # 결과 재확인
+  OUT2=$(node "$CHECK" "$HIST" "$TITLE" 2>/dev/null)
+  OKNOW=$(echo "$OUT2" | cut -d' ' -f1)
+  [ -z "$OKNOW" ] && OKNOW=0
+  NOW2=$(date +%s)
 
-  node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$LASTOK,lastAttemptTs:$(date +%s)}))"
-
-  if [ "${OKNOW:-0}" -gt 0 ]; then
+  if [ "$OKNOW" -gt 0 ]; then
     echo "$fname" >> "$DONE"
     CNT=$((CNT + 1))
-    node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$(date +%s),lastAttemptTs:$(date +%s)}))"
-    echo "[$(date)] ✅ 발행 성공: $fname (오늘 $CNT/$DAILY_MAX)"
+    node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$NOW2,lastAttemptTs:$NOW2}))"
+    echo "[$(date)] 발행 성공: $fname (오늘 $CNT/$DAILY_MAX)"
   else
-    echo "[$(date)] ❌ 발행 실패 — 20분 후 자동 재시도: $fname"
+    node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$LASTOK,lastAttemptTs:$NOW2}))"
+    echo "[$(date)] 발행 실패(exit=$RC) — 20분 후 재시도: $fname"
     if [ "$ERRCNT" -ge $((MAX_ATTEMPTS - 1)) ]; then
       echo "$fname" >> "$FAILED"
-      echo "[$(date)] ⛔ 5회 실패 — 중단 처리됨: $fname (로그: $FAILED)"
+      echo "[$(date)] 5회 실패 — 중단 처리: $fname"
     fi
   fi
   exit 0
