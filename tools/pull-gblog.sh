@@ -1,18 +1,21 @@
 #!/bin/bash
 # ============================================================
-# gblog 자동 발행 풀러 v2 — 하루 발행 수량 조절
-#   - guides/queue/*.json 을 하나씩, 하루 DAILY_MAX 개까지만 발행
-#   - 발행 간격 MIN_GAP_MS 이상 (뉴스 자동발행 등 다른 글과 간격 유지)
-#   - 완료 파일은 해시로 기록 (중복 발행 방지)
+# gblog 자동 발행 풀러 v3 — 실패 복구 + 중복 방지
+#   - 성공 판별: history.json에서 해당 제목의 최신 기록에 error 없음 = 성공
+#   - 실패 시: 20분 후 자동 재시도 (최대 5회, 이후 failed 목록에 기록)
+#   - 하루 2개·3시간 간격, 성공 건만 카운트
 # ============================================================
 PROJ="$HOME/g-blogger-auto-publish"
 QUEUE_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/guides/queue"
-DAILY_MAX=2          # 하루 최대 지식형 글 수
-MIN_GAP=10800        # 발행 최소 간격(초) = 3시간
-QUIET_AFTER=23       # 23시 이후엔 다음날로
+DAILY_MAX=2
+MIN_GAP=10800          # 성공 간격 3시간
+RETRY_GAP=1200         # 실패 재시도 20분
+QUIET_AFTER=23
+MAX_ATTEMPTS=5
 STATE="$HOME/.gblog-state.json"
 DONE="$HOME/.gblog-done.txt"
-LOCKWAIT=20
+FAILED="$HOME/.gblog-failed.txt"
+HIST="$PROJ/history.json"
 
 cd "$PROJ" || exit 1
 
@@ -22,65 +25,105 @@ for i in $(seq 1 20); do
   sleep 15
 done
 
-# 오늘 상태 로드
 TODAY=$(date +%Y-%m-%d)
 HOUR=$(date +%H)
-if [ -f "$STATE" ]; then
-  CNT=$(python3 -c "import json;print(json.load(open('$STATE')).get('count',0))" 2>/dev/null)
-  STAMP=$(python3 -c "import json;print(json.load(open('$STATE')).get('lastTs',0))" 2>/dev/null)
-  SDAY=$(python3 -c "import json;print(json.load(open('$STATE')).get('date',''))" 2>/dev/null)
-else
-  CNT=0; STAMP=0; SDAY=""
-fi
-if [ "$SDAY" != "$TODAY" ]; then CNT=0; STAMP=0; fi
-
-# 하루 한도 도달 → 종료
-if [ "$CNT" -ge "$DAILY_MAX" ]; then exit 0; fi
-# 심야 시간 → 다음날로
-if [ "${HOUR#0}" -ge "$QUIET_AFTER" ]; then exit 0; fi
-# 최소 간격 안 지남 → 종료
 NOW=$(date +%s)
-DIFF=$((NOW - STAMP))
-if [ "$STAMP" -gt 0 ] && [ "$DIFF" -lt "$MIN_GAP" ]; then exit 0; fi
 
-# queue 목록 갱신 (원격에서 파일명 받아오기 — 간단히 로컬 캐시 사용)
+# 상태 로드 (node 사용 — VM에 node는 확실히 있음)
+if [ -f "$STATE" ]; then
+  SDAY=$(node -e "console.log(require('$STATE').date||'')" 2>/dev/null)
+  CNT=$(node -e "console.log(require('$STATE').count||0)" 2>/dev/null)
+  LASTOK=$(node -e "console.log(require('$STATE').lastOkTs||0)" 2>/dev/null)
+  LASTATT=$(node -e "console.log(require('$STATE').lastAttemptTs||0)" 2>/dev/null)
+else
+  SDAY=""; CNT=0; LASTOK=0; LASTATT=0
+fi
+[ -z "$CNT" ] && CNT=0
+[ -z "$LASTOK" ] && LASTOK=0
+[ -z "$LASTATT" ] && LASTATT=0
+if [ "$SDAY" != "$TODAY" ]; then CNT=0; LASTOK=0; LASTATT=0; fi
+
+# 심야 or 일일 한도 → 종료
+if [ "${HOUR#0}" -ge "$QUIET_AFTER" ]; then exit 0; fi
+if [ "$CNT" -ge "$DAILY_MAX" ]; then exit 0; fi
+
+# queue 파일 목록
+LIST=$(curl -sf --max-time 30 "https://api.github.com/repos/neogjr0/gblog-content-/contents/guides/queue" | node -e "
+let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
+  try{ const d=JSON.parse(s); d.filter(f=>f.name.endsWith('.json')).sort((a,b)=>a.name<b.name?-1:1).forEach(f=>console.log(f.name)) }catch(e){}
+})")
+
 mkdir -p "$HOME/.gblog-queue"
 cd "$HOME/.gblog-queue" || exit 1
-# GitHub API로 queue 파일 목록 조회
-LIST=$(curl -sf --max-time 30 "https://api.github.com/repos/neogjr0/gblog-content-/contents/guides/queue" | python3 -c "
-import json,sys
-try:
-    d=json.load(sys.stdin)
-    for f in sorted(d, key=lambda x:x['name']): print(f['name'])
-except Exception: pass
-")
 
 for fname in $LIST; do
-  case "$fname" in
-    *.json) ;;
-    *) continue ;;
-  esac
-  # 이미 발행한 파일인지 확인 (다운로드URL 기반 해시)
-  if grep -q "^$fname$" "$DONE" 2>/dev/null; then continue; fi
-  # 파일 다운로드
+  # 이미 완료/실패 처리된 파일 스킵
+  grep -q "^$fname$" "$DONE" 2>/dev/null && continue
+  grep -q "^$fname$" "$FAILED" 2>/dev/null && continue
+
   curl -sf --max-time 30 "$QUEUE_URL/$fname" -o "$fname" || continue
-  if [ ! -s "$fname" ]; then continue; fi
-  # 발행 실행 (1건)
-  cp "$fname" "$PROJ/posts.json"
-  node publish.js
-  RC=$?
-  # 성공 시 기록 (실패해도 재시도 방지 위해 실패 마커는 두지 않음 → 다음 틱 재시도)
-  if [ $RC -eq 0 ]; then
+  [ -s "$fname" ] || continue
+
+  TITLE=$(node -e "const p=require('./$fname');console.log((p[0].headline||p[0].title||''))")
+  [ -z "$TITLE" ] && continue
+
+  # history.json에서 이 제목 상태 확인
+  # ERRCNT = error 기록 수 / OKCNT = error 없는 기록 수
+  read ERRCNT OKCNT <<< $(node -e "
+const fs=require('fs');
+let h=[];try{h=JSON.parse(fs.readFileSync('$HIST','utf8'))}catch(e){}
+const t='$TITLE'.replace(/'/g,\"\\'\"\");
+const recs=h.filter(r=>r.title===t);
+const err=recs.filter(r=>r.error).length;
+const ok=recs.length-err;
+console.log(err, ok);
+" 2>/dev/null)
+
+  # 이미 성공한 적 있음 → DONE 처리하고 다음 파일로
+  if [ "$OKCNT" -gt 0 ]; then
     echo "$fname" >> "$DONE"
-    python3 -c "
-import json
-json.dump({'date':'$TODAY','count':$((CNT+1)),'lastTs':$(date +%s)}, open('$STATE','w'))
-"
-    echo "[$(date)] 발행 완료: $fname (오늘 $((CNT+1))/$DAILY_MAX)"
+    echo "[$(date)] 이미 발행된 글 감지 → 건너뜀: $fname"
+    continue
+  fi
+
+  # 게이트: 실패 이력 있으면 20분 재시도 간격, 없으면 3시간 성공 간격
+  if [ "$ERRCNT" -gt 0 ]; then
+    GAP=$RETRY_GAP
   else
-    echo "[$(date)] 발행 실패(다음 틱 재시도): $fname"
+    GAP=$MIN_GAP
+  fi
+  DIFF=$((NOW - LASTATT))
+  if [ "$DIFF" -lt "$GAP" ]; then
+    exit 0   # 아직 재시도 시간 전
+  fi
+
+  # 발행 시도
+  cp "$fname" "$PROJ/posts.json"
+  echo "[$(date)] 발행 시도 ($((ERRCNT+1))회차): $fname"
+  node publish.js
+
+  # 재확인: 이제 error 없는 기록이 생겼는지
+  OKNOW=$(node -e "
+const fs=require('fs');
+let h=[];try{h=JSON.parse(fs.readFileSync('$HIST','utf8'))}catch(e){}
+const t='$TITLE'.replace(/'/g,\"\\'\");
+console.log(h.filter(r=>r.title===t && !r.error).length);
+" 2>/dev/null)
+
+  node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$LASTOK,lastAttemptTs:$(date +%s)}))"
+
+  if [ "${OKNOW:-0}" -gt 0 ]; then
+    echo "$fname" >> "$DONE"
+    CNT=$((CNT + 1))
+    node -e "require('fs').writeFileSync('$STATE', JSON.stringify({date:'$TODAY',count:$CNT,lastOkTs:$(date +%s),lastAttemptTs:$(date +%s)}))"
+    echo "[$(date)] ✅ 발행 성공: $fname (오늘 $CNT/$DAILY_MAX)"
+  else
+    echo "[$(date)] ❌ 발행 실패 — 20분 후 자동 재시도: $fname"
+    if [ "$ERRCNT" -ge $((MAX_ATTEMPTS - 1)) ]; then
+      echo "$fname" >> "$FAILED"
+      echo "[$(date)] ⛔ 5회 실패 — 중단 처리됨: $fname (로그: $FAILED)"
+    fi
   fi
   exit 0
 done
-
 exit 0
