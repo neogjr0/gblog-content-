@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# gblog 자동 발행 풀러 v5
+# gblog 자동 발행 풀러 v5.1 (API 직접 다운로드 — CDN 캐시 우회)
 #   - cron 환경 node 자동 탐지
 #   - 성공 판별: gblog-check.js로 history.json 조회 (error 유무)
 #   - 발행은 반드시 PROJ 폴더에서 실행 (cwd 버그 수정)
@@ -8,8 +8,8 @@
 #   - 하루 2개·성공 간격 3시간, 성공 건만 카운트
 # ============================================================
 PROJ="$HOME/g-blogger-auto-publish"
-QUEUE_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/guides/queue"
-TOOLS_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/tools"
+QUEUE_URL="https://api.github.com/repos/neogjr0/gblog-content-/contents/guides/queue"
+TOOLS_URL="https://api.github.com/repos/neogjr0/gblog-content-/contents/tools"
 DAILY_MAX=2
 MIN_GAP=10800          # 성공 간격 3시간
 RETRY_GAP=1200         # 실패 재시도 20분
@@ -37,7 +37,7 @@ if ! command -v node >/dev/null 2>&1; then
 fi
 
 # ── 헬퍼(gblog-check.js) 항상 최신으로 ─────────────────────────
-curl -sf --max-time 20 "$TOOLS_URL/gblog-check.js" -o "$CHECK" || true
+curl -sf --max-time 20 -H "Accept: application/vnd.github.raw" "$TOOLS_URL/gblog-check.js" -o "$CHECK" || true
 
 # 뉴스 자동발행 락 대기
 for i in $(seq 1 20); do
@@ -79,7 +79,7 @@ for fname in $LIST; do
   grep -q "^$fname$" "$DONE" 2>/dev/null && continue
   grep -q "^$fname$" "$FAILED" 2>/dev/null && continue
 
-  curl -sf --max-time 30 "$QUEUE_URL/$fname" -o "$fname" || continue
+  curl -sf --max-time 30 -H "Accept: application/vnd.github.raw" "$QUEUE_URL/$fname" -o "$fname" || continue
   [ -s "$fname" ] || continue
 
   TITLE=$(node -e "try{const p=require('./$fname');console.log(p[0].headline||p[0].title||'')}catch(e){console.log('')}" 2>/dev/null)
