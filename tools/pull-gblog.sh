@@ -1,11 +1,27 @@
 #!/bin/bash
 # ============================================================
-# gblog 자동 발행 풀러 v3 — 실패 복구 + 중복 방지
+# gblog 자동 발행 풀러 v4 — 실패 복구 + 중복 방지 + cron PATH 대응
 #   - 성공 판별: history.json에서 해당 제목의 최신 기록에 error 없음 = 성공
 #   - 실패 시: 20분 후 자동 재시도 (최대 5회, 이후 failed 목록에 기록)
 #   - 하루 2개·3시간 간격, 성공 건만 카운트
+#   - v4: cron 환경에는 node가 PATH에 없을 수 있음 → node 자동 탐지
 # ============================================================
 PROJ="$HOME/g-blogger-auto-publish"
+
+# ── node 자동 탐지 (cron PATH 대응) ──────────────────────────
+if command -v node >/dev/null 2>&1; then
+  export PATH="$(dirname "$(command -v node)"):$PATH"
+elif [ -d "$HOME/.nvm/versions/node" ]; then
+  NV=$(ls -1 "$HOME/.nvm/versions/node" 2>/dev/null | sort -V | tail -1)
+  if [ -n "$NV" ] && [ -x "$HOME/.nvm/versions/node/$NV/bin/node" ]; then
+    export PATH="$HOME/.nvm/versions/node/$NV/bin:$PATH"
+  fi
+fi
+if ! command -v node >/dev/null 2>&1; then
+  echo "[$(date)] ⛔ node를 찾을 수 없습니다 — 스크립트 중단. (node 설치 경로 확인 필요)"
+  exit 0
+fi
+# ──────────────────────────────────────────────────────────────
 QUEUE_URL="https://raw.githubusercontent.com/neogjr0/gblog-content-/main/guides/queue"
 DAILY_MAX=2
 MIN_GAP=10800          # 성공 간격 3시간
