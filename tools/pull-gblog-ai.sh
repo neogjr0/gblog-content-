@@ -25,6 +25,10 @@ CHECK="$HOME/.gblog-check.js"
 QDIR="$HOME/.gblog-ai-queue"
 POSTS="posts-ai.json"
 
+# 로그 자체 기록 (크론 리다이렉션 불필요 → 등록 명령 짧게)
+exec >> "$HOME/pull-gblog-ai.log" 2>&1
+echo "===== $(date) 실행 ====="
+
 # ── node 자동 탐지 ────────────────────────────────────────────
 if command -v node >/dev/null 2>&1; then
   export PATH="$(dirname "$(command -v node)"):$PATH"
