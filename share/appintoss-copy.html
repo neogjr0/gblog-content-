@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>앱인토스 콘솔 등록 문구 — 복사 버튼</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:20px; background:#0f1115; color:#e8ecf1;
+         font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:#8b96a5; font-size:13px; margin-bottom:18px; }
+  .card { background:#171a21; border:1px solid #262b36; border-radius:14px; padding:16px; margin-bottom:14px; }
+  h2 { font-size:15px; margin:0 0 10px; color:#6ea8fe; }
+  textarea { width:100%; background:#0f1115; color:#e8ecf1; border:1px solid #2b3140;
+              border-radius:10px; padding:12px; font-size:14px; line-height:1.55; resize:vertical;
+              font-family:inherit; }
+  .btns { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+  button { background:#3182f6; color:#fff; border:0; border-radius:10px; padding:11px 16px;
+            font-size:14px; font-weight:600; cursor:pointer; }
+  button.sec { background:#2b3140; }
+  button:active { transform:scale(0.98); }
+  .msg { font-size:13px; margin-top:8px; color:#4ade80; min-height:16px; }
+  footer { color:#6b7684; font-size:12px; margin-top:20px; }
+</style></head>
+<body>
+<h1>앱인토스 콘솔 등록 문구</h1>
+<div class="sub">버튼을 누르면 클립보드에 복사됩니다 (Chrome/사파리에서 열 것 — 텔레그램 뷰어에서는 복사 차단)</div>
+
+  <section class="card">
+    <h2>앱 이름 (1안)</h2>
+    <textarea id="t0" readonly rows="3">세금 계산기 - 양도세·증여세·취득세</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(0)">📋 복사</button>
+      <button class="sec" onclick="selBlock(0)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m0"></div>
+  </section>
+  <section class="card">
+    <h2>앱 설명 (전체)</h2>
+    <textarea id="t1" readonly rows="18">2026년 세법 기준으로 양도소득세·증여세·취득세를 바로 계산합니다.
+복잡한 세금, 3분 안에 확인하고 절세 시나리오까지 비교하세요.
+
+■ 이런 분께 필요합니다
+· 집을 팔기 전 양도세가 궁금한 분
+· 자녀에게 증여할 때 세금이 궁금한 분
+· 내 집 마련 전 취득세를 미리 계산하려는 분
+
+■ 주요 기능
+· 양도소득세: 보유기간·1세대1주택 특례 반영
+· 증여세: 관계별 공제(배우자·자녀)·신고세액공제
+· 취득세: 주택 수·가액 구간별 세율
+· 결과 리포트 저장 및 시나리오 비교(프리미엄)
+
+■ 참고
+· 본 계산 결과는 참고용이며 세무 자문이 아닙니다.
+· 세법 개정 시 업데이트됩니다.</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(1)">📋 복사</button>
+      <button class="sec" onclick="selBlock(1)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m1"></div>
+  </section>
+  <section class="card">
+    <h2>검색 키워드</h2>
+    <textarea id="t2" readonly rows="3">양도소득세, 양도세, 증여세, 취득세, 상속세, 종합부동산세, 재산세, 세금계산기, 부동산세금, 1세대1주택, 장기보유특별공제, 증여공제, 세금 신고, 절세, 부동산 거래, 2026 세법</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(2)">📋 복사</button>
+      <button class="sec" onclick="selBlock(2)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m2"></div>
+  </section>
+  <section class="card">
+    <h2>스크린샷 5장 캡션</h2>
+    <textarea id="t3" readonly rows="6">1. 3분 만에 세금 확인 — 양도세·증여세·취득세
+2. 금액과 기간만 입력하면 끝
+3. 총 세액과 세율 구간 한눈에
+4. 공제·특례 반영 상세 내역
+5. 시나리오 비교와 리포트 저장</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(3)">📋 복사</button>
+      <button class="sec" onclick="selBlock(3)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m3"></div>
+  </section>
+  <section class="card">
+    <h2>가격표 (콘솔/안내 문구용)</h2>
+    <textarea id="t4" readonly rows="4">· 단건 리포트 3,900원 (첫 구매 1,900원)
+· 30일 패스 7,900원 — 전 계산기 + 리포트 무제한
+· 모든 기본 계산은 무료</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(4)">📋 복사</button>
+      <button class="sec" onclick="selBlock(4)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m4"></div>
+  </section>
+  <section class="card">
+    <h2>면책 문구 (고정 삽입)</h2>
+    <textarea id="t5" readonly rows="3">본 계산 결과는 참고용이며 세무 자문이 아닙니다. 실제 신고는 세무 전문가와 상담하세요.</textarea>
+    <div class="btns">
+      <button onclick="copyBlock(5)">📋 복사</button>
+      <button class="sec" onclick="selBlock(5)">☑️ 텍스트 선택</button>
+    </div>
+    <div class="msg" id="m5"></div>
+  </section>
+<footer>wealth-tax 미니앱 · 마케팅 담당 작성</footer>
+<script>
+function flash(i, ok) {
+  const m = document.getElementById('m' + i);
+  m.textContent = ok ? '✅ 복사됨!' : '⚠️ 자동 복사 차단됨 → 텍스트 선택 버튼을 누르고 Ctrl+C(길게 눌러 복사)';
+  setTimeout(() => m.textContent = '', 2600);
+}
+function fallback(el, i) {
+  el.removeAttribute('readonly'); el.focus(); el.select();
+  try { const ok = document.execCommand('copy'); flash(i, ok); }
+  catch (e) { flash(i, false); }
+  el.setAttribute('readonly', 'readonly');
+}
+function copyBlock(i) {
+  const el = document.getElementById('t' + i);
+  const txt = el.value;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(() => flash(i, true)).catch(() => fallback(el, i));
+  } else { fallback(el, i); }
+}
+function selBlock(i) {
+  const el = document.getElementById('t' + i);
+  el.focus(); el.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  flash(i, true);
+}
+</script>
+</body></html>
