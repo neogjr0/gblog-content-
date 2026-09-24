@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>밴드 초대 문구 복사</title>
+<style>
+ :root{color-scheme:dark} body{margin:0;padding:18px;background:#0f1115;color:#e8ecf1;font-family:-apple-system,'Malgun Gothic',sans-serif}
+ h1{font-size:19px;margin:0 0 4px} .sub{color:#8b96a5;font-size:13px;margin-bottom:16px}
+ .card{background:#171a21;border:1px solid #262b36;border-radius:14px;padding:14px;margin-bottom:14px}
+ h2{font-size:15px;margin:0 0 10px;color:#4ade80}
+ textarea{width:100%;background:#0f1115;color:#e8ecf1;border:1px solid #2b3140;border-radius:10px;padding:11px;font-size:14px;line-height:1.5;resize:vertical;font-family:inherit}
+ .btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+ button{background:#3182f6;color:#fff;border:0;border-radius:10px;padding:11px 15px;font-size:14px;font-weight:600;cursor:pointer}
+ button.sec{background:#2b3140} .msg{font-size:13px;margin-top:8px;color:#4ade80;min-height:16px}
+ .info{background:#17212b;border:1px solid #24384a;border-radius:12px;padding:12px;font-size:14px;margin-bottom:14px}
+</style></head><body>
+<h1>밴드 초대 문구 (복사 버튼)</h1>
+<div class="sub">Chrome에서 열어 버튼으로 복사 → 카카오스토리·페이스북·지인톡에 붙여넣기</div>
+<div class="info">밴드: <b>부동산·재테크 정보방</b><br>링크: https://www.band.us/band/104603652<br>초대코드: <b>VCP-KCT-3R</b></div>
+
+  <section class="card">
+    <h2>카카오스토리 · 페이스북 공유용</h2>
+    <textarea id="t0" readonly rows="13">📌 부동산·재테크 정보방을 열었습니다
+
+매일 정리해서 올립니다 👇
+· 청약 (무순위 줍줍·특별공급 조건)
+· 부동산 세금 (재산세·종부세·양도세·상속)
+· 대출 비교 (DSR·파킹통장·전세대출)
+· 연말정산·절세 (환급 늘리는 법)
+
+부동산 거래 전에 확인해야 할 것들, 계속 올립니다.
+
+👉 https://www.band.us/band/104603652
+(초대코드: VCP-KCT-3R)</textarea>
+    <div class="btns"><button onclick="cp(0)">📋 문구 복사</button>
+    <button class="sec" onclick="cp(100)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m0"></div>
+  </section>
+  <section class="card">
+    <h2>지인 톡 · 문자용 (짧게)</h2>
+    <textarea id="t1" readonly rows="5">부동산·재테크 정보 정리방 만들었어요.
+청약·세금·대출 정보 매일 올립니다 👇
+https://www.band.us/band/104603652
+초대코드 VCP-KCT-3R</textarea>
+    <div class="btns"><button onclick="cp(1)">📋 문구 복사</button>
+    <button class="sec" onclick="cp(101)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m1"></div>
+  </section>
+  <section class="card">
+    <h2>밴드 공지용</h2>
+    <textarea id="t2" readonly rows="10">[공지] 부동산·재테크 정보방 운영 안내
+
+이 밴드는 청약·세금·대출·절세 정보를 매일 정리해 올리는 곳입니다.
+· 궁금한 점은 댓글로 남겨주세요 (다음 글에 반영합니다)
+· 지인 초대: 초대코드 VCP-KCT-3R 또는 아래 링크
+https://www.band.us/band/104603652
+
+[함께 보면 좋은 글]
+무순위 청약(줍줍) 총정리 → https://wildmach.tistory.com/1212</textarea>
+    <div class="btns"><button onclick="cp(2)">📋 문구 복사</button>
+    <button class="sec" onclick="cp(102)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m2"></div>
+  </section>
+  <section class="card">
+    <h2>밴드 재공유 · 커뮤니티용</h2>
+    <textarea id="t3" readonly rows="8">부동산·재테크 정보 매일 정리합니다.
+
+청약(무순위·특별공급), 세금(재산세·종부세·양도세), 대출 비교, 연말정산 절세 —
+실제 계산 예시까지 포함해 올립니다.
+
+관심 있으시면 아래로 👇
+https://www.band.us/band/104603652</textarea>
+    <div class="btns"><button onclick="cp(3)">📋 문구 복사</button>
+    <button class="sec" onclick="cp(103)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m3"></div>
+  </section>
+<script>
+const T = ["📌 부동산·재테크 정보방을 열었습니다\n\n매일 정리해서 올립니다 👇\n· 청약 (무순위 줍줍·특별공급 조건)\n· 부동산 세금 (재산세·종부세·양도세·상속)\n· 대출 비교 (DSR·파킹통장·전세대출)\n· 연말정산·절세 (환급 늘리는 법)\n\n부동산 거래 전에 확인해야 할 것들, 계속 올립니다.\n\n👉 https://www.band.us/band/104603652\n(초대코드: VCP-KCT-3R)", "부동산·재테크 정보 정리방 만들었어요.\n청약·세금·대출 정보 매일 올립니다 👇\nhttps://www.band.us/band/104603652\n초대코드 VCP-KCT-3R", "[공지] 부동산·재테크 정보방 운영 안내\n\n이 밴드는 청약·세금·대출·절세 정보를 매일 정리해 올리는 곳입니다.\n· 궁금한 점은 댓글로 남겨주세요 (다음 글에 반영합니다)\n· 지인 초대: 초대코드 VCP-KCT-3R 또는 아래 링크\nhttps://www.band.us/band/104603652\n\n[함께 보면 좋은 글]\n무순위 청약(줍줍) 총정리 → https://wildmach.tistory.com/1212", "부동산·재테크 정보 매일 정리합니다.\n\n청약(무순위·특별공급), 세금(재산세·종부세·양도세), 대출 비교, 연말정산 절세 —\n실제 계산 예시까지 포함해 올립니다.\n\n관심 있으시면 아래로 👇\nhttps://www.band.us/band/104603652", "https://www.band.us/band/104603652", "https://www.band.us/band/104603652", "https://www.band.us/band/104603652", "https://www.band.us/band/104603652", "VCP-KCT-3R"];
+function flash(i, ok) { const m = document.getElementById('m' + (i % 100)); m.textContent = ok ? '✅ 복사됨!' : '⚠️ 직접 선택 후 Ctrl+C'; setTimeout(() => m.textContent = '', 2400); }
+function fb(t, i) { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { flash(i, document.execCommand('copy')); } catch (e) { flash(i, false); } document.body.removeChild(ta); }
+function cp(i) { const t = T[i]; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(() => flash(i, true)).catch(() => fb(t, i)); } else { fb(t, i); } }
+</script></body></html>
