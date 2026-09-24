@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>공유 문구 복사 — 티스토리 가이드</title>
+<style>
+ :root{color-scheme:dark} *{box-sizing:border-box}
+ body{margin:0;padding:18px;background:#0f1115;color:#e8ecf1;font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif}
+ h1{font-size:19px;margin:0 0 4px} .sub{color:#8b96a5;font-size:13px;margin-bottom:16px}
+ .card{background:#171a21;border:1px solid #262b36;border-radius:14px;padding:14px;margin-bottom:14px}
+ h2{font-size:15px;margin:0 0 10px;color:#6ea8fe}
+ textarea{width:100%;background:#0f1115;color:#e8ecf1;border:1px solid #2b3140;border-radius:10px;padding:11px;font-size:14px;line-height:1.5;resize:vertical;font-family:inherit}
+ .btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+ button{background:#3182f6;color:#fff;border:0;border-radius:10px;padding:11px 15px;font-size:14px;font-weight:600;cursor:pointer}
+ button.sec{background:#2b3140} button:active{transform:scale(.98)}
+ .msg{font-size:13px;margin-top:8px;color:#4ade80;min-height:16px}
+ .imgbox{margin-top:12px} .imgbox img{width:100%;max-width:520px;border-radius:10px;display:block}
+ footer{color:#6b7684;font-size:12px;margin-top:18px}
+</style></head><body>
+<h1>공유 문구 복사 (티스토리 가이드)</h1>
+<div class="sub">Chrome/사파리에서 열어 버튼으로 복사하세요. 카드 이미지는 길게 눌러 저장.</div>
+
+<footer>하루 1~2개씩 카카오스토리·밴드·디시에 나눠 올리면 초기 클릭 신호가 됩니다.</footer>
+<script>
+const LINKS = [];
+const TEXTS = [];
+function flash(i, ok) {
+  const m = document.getElementById('m' + i);
+  m.textContent = ok ? '✅ 복사됨!' : '⚠️ 자동 복사 차단 → 텍스트 선택 후 Ctrl+C';
+  setTimeout(() => m.textContent = '', 2400);
+}
+function fallback(text, i) {
+  const ta = document.createElement('textarea'); ta.value = text;
+  document.body.appendChild(ta); ta.select();
+  try { const ok = document.execCommand('copy'); flash(i, ok); } catch (e) { flash(i, false); }
+  document.body.removeChild(ta);
+}
+function doCopy(text, i) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => flash(i, true)).catch(() => fallback(text, i));
+  } else { fallback(text, i); }
+}
+function copyBlock(i) { doCopy(TEXTS[i], i); }
+function copyShort(i) { doCopy(LINKS[i], i); }
+</script></body></html>
