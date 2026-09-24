@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>밴드 게시글 복사</title>
+<style>
+ :root{color-scheme:dark} body{margin:0;padding:18px;background:#0f1115;color:#e8ecf1;font-family:-apple-system,'Malgun Gothic',sans-serif}
+ h1{font-size:19px;margin:0 0 4px} .sub{color:#8b96a5;font-size:13px;margin-bottom:16px}
+ .card{background:#171a21;border:1px solid #262b36;border-radius:14px;padding:14px;margin-bottom:14px}
+ h2{font-size:15px;margin:0 0 10px;color:#6ea8fe}
+ textarea{width:100%;background:#0f1115;color:#e8ecf1;border:1px solid #2b3140;border-radius:10px;padding:11px;font-size:14px;line-height:1.5;resize:vertical;font-family:inherit}
+ .btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+ button{background:#3182f6;color:#fff;border:0;border-radius:10px;padding:11px 15px;font-size:14px;font-weight:600;cursor:pointer}
+ button.sec{background:#2b3140} .msg{font-size:13px;margin-top:8px;color:#4ade80;min-height:16px}
+</style></head><body>
+<h1>밴드 게시글 복사 (5일치)</h1>
+<div class="sub">Chrome에서 열어 버튼으로 복사 → 밴드에 붙여넣기. 하루 1개씩 올리세요.</div>
+
+  <section class="card">
+    <h2>무순위 청약(줍줍)</h2>
+    <textarea id="t0" readonly rows="9">📍 청약통장 없이, 가점 없이 — 무순위 청약(줍줍)
+
+1️⃣ 청약통장 필요 없음 · 100% 추첨
+2️⃣ 만 19세 이상이면 거주지·주택 수 무관
+3️⃣ 단, 규제지역은 재당첨 7~10년 제한 — 공고문 필수 확인!
+
+공고 뜨고 2~3일이면 마감됩니다. 청약홈 알림 켜두세요.
+👉 https://wildmach.tistory.com/1212</textarea>
+    <div class="btns"><button onclick="cp(0)">📋 게시글 복사</button>
+    <button class="sec" onclick="cp(100)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m0"></div>
+  </section>
+  <section class="card">
+    <h2>부동산 세금 캘린더</h2>
+    <textarea id="t1" readonly rows="9">📅 부동산 세금, 언제 나오는지 모르면 가산세 맞습니다
+
+· 6/1 = 보유세 과세기준일 (재산세·종부세 소유자 기준)
+· 7월·9월 = 재산세 절반씩 (주택)
+· 11~12월 = 종부세
+· 취득세 60일 / 양도세 2개월 / 증여세 3개월 / 상속세 6개월
+
+👉 https://wildmach.tistory.com/1229</textarea>
+    <div class="btns"><button onclick="cp(1)">📋 게시글 복사</button>
+    <button class="sec" onclick="cp(101)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m1"></div>
+  </section>
+  <section class="card">
+    <h2>건강보험료 피부양자</h2>
+    <textarea id="t2" readonly rows="9">💰 피부양자 자격 잃으면 월 10만 원 이상 나갑니다
+
+기준 (2026):
+· 소득 연 2,000만 원 이하
+· 재산세 과세표준 5.4억 이하 (5.4~9억 구간은 소득 1,000만 이하만 인정)
+· 사업자등록 있으면 사업소득 1원이라도 있으면 탈락
+
+👉 https://wildmach.tistory.com/1230</textarea>
+    <div class="btns"><button onclick="cp(2)">📋 게시글 복사</button>
+    <button class="sec" onclick="cp(102)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m2"></div>
+  </section>
+  <section class="card">
+    <h2>해외주식 양도세</h2>
+    <textarea id="t3" readonly rows="9">📈 해외주식 수익 냈으면 5월에 직접 신고해야 합니다
+
+· 연 250만 원까지 공제
+· 초과분 22% (지방세 포함)
+· 같은 해 손익통산 가능
+· 신고 누락 시 가산세 20% 수준
+
+👉 https://wildmach.tistory.com/1228</textarea>
+    <div class="btns"><button onclick="cp(3)">📋 게시글 복사</button>
+    <button class="sec" onclick="cp(103)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m3"></div>
+  </section>
+  <section class="card">
+    <h2>연말정산 미리보기</h2>
+    <textarea id="t4" readonly rows="9">🧾 연말정산, 12월에 준비하면 늦습니다
+
+지금 채울 수 있는 것:
+· 연금계좌 최대 900만 (세액공제 15%/12%)
+· 카드 총급여 25% 초과분 → 체크카드 30%
+· 월세액 17%/15% (현금 지급은 불가)
+
+👉 https://wildmach.tistory.com/1220</textarea>
+    <div class="btns"><button onclick="cp(4)">📋 게시글 복사</button>
+    <button class="sec" onclick="cp(104)">🔗 링크만 복사</button></div>
+    <div class="msg" id="m4"></div>
+  </section>
+<script>
+const T = ["📍 청약통장 없이, 가점 없이 — 무순위 청약(줍줍)\n\n1️⃣ 청약통장 필요 없음 · 100% 추첨\n2️⃣ 만 19세 이상이면 거주지·주택 수 무관\n3️⃣ 단, 규제지역은 재당첨 7~10년 제한 — 공고문 필수 확인!\n\n공고 뜨고 2~3일이면 마감됩니다. 청약홈 알림 켜두세요.\n👉 https://wildmach.tistory.com/1212", "📅 부동산 세금, 언제 나오는지 모르면 가산세 맞습니다\n\n· 6/1 = 보유세 과세기준일 (재산세·종부세 소유자 기준)\n· 7월·9월 = 재산세 절반씩 (주택)\n· 11~12월 = 종부세\n· 취득세 60일 / 양도세 2개월 / 증여세 3개월 / 상속세 6개월\n\n👉 https://wildmach.tistory.com/1229", "💰 피부양자 자격 잃으면 월 10만 원 이상 나갑니다\n\n기준 (2026):\n· 소득 연 2,000만 원 이하\n· 재산세 과세표준 5.4억 이하 (5.4~9억 구간은 소득 1,000만 이하만 인정)\n· 사업자등록 있으면 사업소득 1원이라도 있으면 탈락\n\n👉 https://wildmach.tistory.com/1230", "📈 해외주식 수익 냈으면 5월에 직접 신고해야 합니다\n\n· 연 250만 원까지 공제\n· 초과분 22% (지방세 포함)\n· 같은 해 손익통산 가능\n· 신고 누락 시 가산세 20% 수준\n\n👉 https://wildmach.tistory.com/1228", "🧾 연말정산, 12월에 준비하면 늦습니다\n\n지금 채울 수 있는 것:\n· 연금계좌 최대 900만 (세액공제 15%/12%)\n· 카드 총급여 25% 초과분 → 체크카드 30%\n· 월세액 17%/15% (현금 지급은 불가)\n\n👉 https://wildmach.tistory.com/1220", "https://wildmach.tistory.com/1212", "https://wildmach.tistory.com/1229", "https://wildmach.tistory.com/1230", "https://wildmach.tistory.com/1228", "https://wildmach.tistory.com/1220"];
+function flash(i, ok) { const m = document.getElementById('m' + (i % 100)); m.textContent = ok ? '✅ 복사됨!' : '⚠️ 자동 복사 차단 → 직접 선택 후 Ctrl+C'; setTimeout(() => m.textContent = '', 2400); }
+function fb(t, i) { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { flash(i, document.execCommand('copy')); } catch (e) { flash(i, false); } document.body.removeChild(ta); }
+function cp(i) { const t = T[i]; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(() => flash(i, true)).catch(() => fb(t, i)); } else { fb(t, i); } }
+</script></body></html>
