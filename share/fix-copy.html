@@ -1,0 +1,485 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>수정본 붙여넣기 (오류 수정 7편)</title><style>
+body{background:#111;color:#eee;font-family:-apple-system,'Malgun Gothic',sans-serif;margin:0;padding:16px}
+h1{font-size:17px;margin:0 0 6px}p.g{font-size:13px;color:#9aa;line-height:1.6;margin:0 0 14px}
+.c{background:#1c1c1e;border:1px solid #333;border-radius:12px;margin:0 0 14px;overflow:hidden}
+.h{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#252528;font-weight:700;font-size:13px;gap:10px}
+button{background:#2f6fed;color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+pre{white-space:pre-wrap;word-break:break-all;font-family:Menlo,Consolas,monospace;font-size:11.5px;line-height:1.5;margin:0;padding:12px;max-height:34vh;overflow:auto;color:#9fe}
+</style></head><body>
+<h1>오류 수정본 7편 (검증 완료)</h1>
+<p class="g">사용법: 해당 글 열기 → 편집 → 오른쪽 위 <b>[HTML]</b> 클릭 → <b>Ctrl+A → Delete</b> → <b>HTML 복사</b> 버튼 → Ctrl+V → <b>[완료]</b></p>
+<div class="c"><div class="h"><span>월급 300만 원 (새 블로그 5번)</span><button onclick="cp('b0',this)">📋 HTML 복사</button></div><pre id="b0">&lt;h2&gt;월급 300만 원인데 통장엔 260만 원대? 그 32만~39만 원 어디 갔나&lt;/h2&gt;
+
+&lt;p&gt;면접에서 연봉 협상 잘해놓고, 막상 통장 보면 &quot;어? 왜 이래?&quot; 하는 순간이 있습니다. &lt;b&gt;4대보험 + 소득세&lt;/b&gt;가 빠지기 때문인데, 어디서 얼마나 빠지는지 한 번 끝까지 뜯어보겠습니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 결론부터 — 월급 300만 원의 실제 통장 입금액&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;항목&lt;/th&gt;&lt;th&gt;금액&lt;/th&gt;&lt;th&gt;계산 기준&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;세전 월급&lt;/td&gt;&lt;td&gt;300만 원&lt;/td&gt;&lt;td&gt;계약서 금액&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;국민연금&lt;/td&gt;&lt;td&gt;-14만 2,500원&lt;/td&gt;&lt;td&gt;과세소득 × 4.75% (2026 기준)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;건강보험&lt;/td&gt;&lt;td&gt;-10만 7,850원&lt;/td&gt;&lt;td&gt;× 3.595% (2026 기준)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;장기요양보험&lt;/td&gt;&lt;td&gt;-1만 4,170원&lt;/td&gt;&lt;td&gt;건강보험료 × 13.14%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;고용보험&lt;/td&gt;&lt;td&gt;-2만 7천 원&lt;/td&gt;&lt;td&gt;× 0.9%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;소득세&lt;/td&gt;&lt;td&gt;-약 4만 3천~9만 원&lt;/td&gt;&lt;td&gt;간이세액표(본인 1명 기준, 식대 비과세 여부에 따라 달라짐)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;지방소득세&lt;/td&gt;&lt;td&gt;-약 4,300~9,000원&lt;/td&gt;&lt;td&gt;소득세의 10%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;실수령액&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;약 261만~268만 원&lt;/b&gt;&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;※ 위 4대보험은 과세소득 300만 원 기준입니다. 식대 20만 원이 비과세면 280만 원 기준으로 계산돼 4대보험과 소득세가 줄어 실수령액이 약 268만 원까지 올라갑니다. 소득세는 홈택스 간이세액표로 본인 조건을 확인하세요.&lt;/p&gt;
+
+&lt;p&gt;연봉으로 치면 &lt;b&gt;약 380만~470만 원이 1년에 조용히 사라집니다.&lt;/b&gt; 이건 손해가 아니라 제도지만, &lt;b&gt;줄일 수 있는 부분과 못 줄이는 부분&lt;/b&gt;을 구분하는 게 핵심입니다.&lt;/p&gt;
+
+&lt;h2&gt;2. 못 줄이는 것 vs 줄일 수 있는 것&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;항목&lt;/th&gt;&lt;th&gt;줄일 수 있나?&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;못 줄임&lt;/td&gt;&lt;td&gt;국민연금·건강보험·고용보험&lt;/td&gt;&lt;td&gt;❌ (기준대로 자동 공제)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;못 줄임&lt;/td&gt;&lt;td&gt;장기요양보험&lt;/td&gt;&lt;td&gt;❌&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;줄일 수 있음&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;소득세&lt;/b&gt;&lt;/td&gt;&lt;td&gt;✅ 연말정산으로 환급&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;조절 가능&lt;/td&gt;&lt;td&gt;식대·차량유지비 등 비과세 항목&lt;/td&gt;&lt;td&gt;✅ 회사 규정에 따라&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;즉, 매달 떼이는 건 어쩔 수 없지만 &lt;b&gt;연말정산에서 돌려받는 금액&lt;/b&gt;을 키우는 게 유일한 실질 절세입니다.&lt;/p&gt;
+
+&lt;h2&gt;3. &quot;왜 회사마다 다르냐&quot;는 질문&lt;/h2&gt;
+
+&lt;p&gt;같은 300만 원이라도 실수령액이 다른 이유는 세 가지입니다.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;비과세 항목&lt;/b&gt; — 식대(월 20만 원까지), 자가운전보조금(월 20만 원까지) 등을 급여에 넣는 회사면 과세소득이 줄어 세금이 적습니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;부양가족 수&lt;/b&gt; — 결혼·자녀·부모님 등록에 따라 간이세액이 달라집니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;연봉 계약 방식&lt;/b&gt; — &quot;연봉에 식대 포함&quot;인지 &quot;별도 지급&quot;인지에 따라 1년에 수십만 원 차이가 납니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;4. 면접 때 물어볼 것 (이걸 안 물으면 손해)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&quot;식대·차량유지비는 별도로 나오나요, 연봉에 포함인가요?&quot;&lt;/li&gt;
+&lt;li&gt;&quot;연봉은 세전 기준인가요?&quot;&lt;/li&gt;
+&lt;li&gt;&quot;퇴직금은 연봉에 포함인가요, 별도인가요?&quot; (포함이라면 실질 연봉이 낮아집니다)&lt;/li&gt;
+&lt;li&gt;&quot;상여금·성과급은 연봉에 포함인가요?&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;5. 실수령액 늘리는 현실적인 방법&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;비과세 항목을 연봉에 넣지 않기&lt;/b&gt; — 별도 지급으로 협상&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;부양가족 등록 확인&lt;/b&gt; — 연말정산 때 빠뜨리는 사람이 많습니다&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;연금저축·IRP 납입&lt;/b&gt; — 연 900만 원까지 세액공제(최대 148만 원 환급)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;신용카드·체크카드 비율 조정&lt;/b&gt; — 체크카드·현금영수증이 공제율이 높습니다&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;월 중 입사·퇴사 시 정산 확인&lt;/b&gt; — 마지막 달 공제가 몰릴 수 있습니다&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;6. 정리 (3줄)&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;월급 300만 원 → 실수령액 약 261만~268만 원 (연 380만~470만 원 차이).&lt;/li&gt;
+&lt;li&gt;4대보험은 못 줄이고, &lt;b&gt;소득세는 연말정산으로 돌려받습니다.&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;면접 때 &lt;b&gt;비과세 항목·퇴직금 포함 여부&lt;/b&gt;만 확인해도 1년에 수십만 원이 갈립니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;b&gt;오늘 할 일:&lt;/b&gt; 내 급여명세서에서 공제 항목 5개를 확인하세요. 부양가족이 빠져 있으면 회사에 정정 요청하면 됩니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;※ 본 글은 정보 제공 목적이며 세무 자문이 아닙니다. 세율·공제 기준은 개정될 수 있으니 국세청·4대보험 공단 자료를 확인하세요.&lt;/em&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>전세보증금·확정일자 (새 블로그 6번)</span><button onclick="cp('b1',this)">📋 HTML 복사</button></div><pre id="b1">&lt;h2&gt;전세 계약하고 나서 이거 안 하면, 이사 첫날부터 위험합니다&lt;/h2&gt;
+
+&lt;p&gt;이사 날짜 잡고 짐 옮기고 밥 먹고… 그날 제일 중요한 걸 깜빡하는 사람이 정말 많습니다. &lt;b&gt;전입신고 + 확정일자&lt;/b&gt;입니다. 이 두 개를 안 하면 &lt;b&gt;내 보증금이 순위에서 밀립니다.&lt;/b&gt;&lt;/p&gt;
+
+&lt;h2&gt;1. 딱 이 순서만 지키면 됩니다&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;순서&lt;/th&gt;&lt;th&gt;할 일&lt;/th&gt;&lt;th&gt;어디서&lt;/th&gt;&lt;th&gt;왜&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;&lt;b&gt;잔금 지급 + 열쇠 수령&lt;/b&gt;&lt;/td&gt;&lt;td&gt;현장&lt;/td&gt;&lt;td&gt;점유를 확보해야 다음 단계가 성립&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;&lt;b&gt;전입신고&lt;/b&gt;&lt;/td&gt;&lt;td&gt;주민센터 또는 정부24&lt;/td&gt;&lt;td&gt;대항력 발생(다음 날 0시)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;&lt;b&gt;확정일자&lt;/b&gt;&lt;/td&gt;&lt;td&gt;주민센터·법원·인터넷등기소&lt;/td&gt;&lt;td&gt;우선변제권 확보&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;&lt;b&gt;보증금 승계 확인&lt;/b&gt;&lt;/td&gt;&lt;td&gt;등기부등본&lt;/td&gt;&lt;td&gt;근저당 상황 확인&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;핵심은 &lt;b&gt;&quot;전입신고 + 확정일자&quot;를 같은 날&lt;/b&gt; 처리하는 것입니다. 둘 중 하나만 하면 보호가 반쪽입니다.&lt;/p&gt;
+
+&lt;h2&gt;2. 권리 3형제, 이렇게 다릅니다&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;권리&lt;/th&gt;&lt;th&gt;요건&lt;/th&gt;&lt;th&gt;무엇을 해주나&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;대항력&lt;/b&gt;&lt;/td&gt;&lt;td&gt;인도 + 전입신고&lt;/td&gt;&lt;td&gt;집이 팔려도 새 주인에게 임대차를 주장&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;우선변제권&lt;/b&gt;&lt;/td&gt;&lt;td&gt;대항력 + 확정일자&lt;/td&gt;&lt;td&gt;경매 시 다른 채권자보다 먼저 배당&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;최우선변제&lt;/b&gt;&lt;/td&gt;&lt;td&gt;대항력 + 소액임차인 요건(보증금이 일정액 이하)&lt;/td&gt;&lt;td&gt;확정일자 없이도 일정 금액을 최우선 배당&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;쉽게 말하면 &lt;b&gt;전입신고=방패, 확정일자=칼&lt;/b&gt;입니다. 방패만 들고 싸우면 이깁니다만, 순위는 장담 못 합니다.&lt;/p&gt;
+
+&lt;h2&gt;3. 자주 하는 실수 TOP 5&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;&quot;주말이라 월요일에 하지 뭐&quot;&lt;/b&gt; — 그 사이 다른 근저당이 설정되면 순위가 밀립니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;전입신고만 하고 확정일자 안 함&lt;/b&gt; — 경매에서 배당 순위가 뒤로 밀립니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;가족·지인 집이라 대충&lt;/b&gt; — 가족 간에도 순위는 냉정합니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;계약서 주소와 전입 주소 불일치&lt;/b&gt; — 동·호수를 반드시 맞추세요.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;선순위 임차인 확인 안 함&lt;/b&gt; — 앞사람 보증금이 큰 경우가 있습니다(확정일자 부여현황 확인).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;4. 계약 전에 5분만 확인하세요&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;등기부등본&lt;/b&gt; — 근저당·가압류 금액과 &lt;b&gt;내 보증금 + 근저당&lt;/b&gt;이 시세의 70%를 넘는지&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;건축물대장&lt;/b&gt; — 위반건축물이면 보증보험 거절될 수 있습니다&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;확정일자 부여현황 확인&lt;/b&gt; — 선순위 임차인 보증금 규모(계약 전엔 임대인 동의 필요, 전입세대 열람은 세대 구성만 확인됨)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;국세·지방세 체납&lt;/b&gt; — 집주인 체납 확인(공매 위험)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;보증보험 가입 가능 여부&lt;/b&gt; — HUG·HF·SGI 중 한 곳으로 가입&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;5. 보증금이 큰 경우엔 보증보험까지&lt;/h2&gt;
+
+&lt;p&gt;전세보증금이 &lt;b&gt;1억 원 이상&lt;/b&gt;이면 보증보험 가입을 권합니다. 보증료는 연 0.1~0.2% 수준이고, 청년·신혼부부는 할인이 있습니다. 계약서에 &lt;b&gt;집주인 협조 조항&lt;/b&gt;이 있는지도 확인하세요.&lt;/p&gt;
+
+&lt;h2&gt;6. 정리 (3줄)&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;잔금 → 전입신고 → 확정일자&lt;/b&gt;를 같은 날 끝낸다(대항력·우선변제권 동시 확보).&lt;/li&gt;
+&lt;li&gt;계약 전 &lt;b&gt;등기부등본으로 선순위 채권&lt;/b&gt;을 확인한다.&lt;/li&gt;
+&lt;li&gt;보증금 1억 이상이면 &lt;b&gt;보증보험&lt;/b&gt;까지 챙긴다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;b&gt;오늘 할 일:&lt;/b&gt; 계약 예정이라면 주민센터 방문 시간을 미리 확인하세요(평일 09:00~18:00). 정부24에서도 전입신고가 가능합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;※ 본 글은 정보 제공 목적이며 법률 자문이 아닙니다. 구체적인 권리 판단은 전문가 상담을 권합니다.&lt;/em&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>취득세 계산 (새 블로그 7번)</span><button onclick="cp('b2',this)">📋 HTML 복사</button></div><pre id="b2">&lt;h2&gt;집 살 때 내는 취득세, 6억과 9억 사이에서 세금이 확 뜁니다&lt;/h2&gt;
+
+&lt;p&gt;집값 깎아서 좋아했는데, 취득세 고지서 보고 놀라는 경우가 많습니다. &lt;b&gt;5억 집과 10억 집의 취득세는 6배&lt;/b&gt; 차이가 납니다. 내가 살 집이면 얼마인지 미리 계산해두면 협상에서도 유리합니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 1주택 기준 취득세 (가장 흔한 경우)&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;취득가액&lt;/th&gt;&lt;th&gt;세율&lt;/th&gt;&lt;th&gt;취득세&lt;/th&gt;&lt;th&gt;+지방교육세&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;6억 원 이하&lt;/td&gt;&lt;td&gt;&lt;b&gt;1%&lt;/b&gt;&lt;/td&gt;&lt;td&gt;5억 → 500만 원&lt;/td&gt;&lt;td&gt;+50만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;6억 초과 ~ 9억 이하&lt;/td&gt;&lt;td&gt;&lt;b&gt;1~3%&lt;/b&gt; (슬라이딩)&lt;/td&gt;&lt;td&gt;7억 → 약 1,170만 원&lt;/td&gt;&lt;td&gt;+약 117만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;9억 원 초과&lt;/td&gt;&lt;td&gt;&lt;b&gt;3%&lt;/b&gt;&lt;/td&gt;&lt;td&gt;10억 → 3,000만 원&lt;/td&gt;&lt;td&gt;+300만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;포인트는 &lt;b&gt;6억~9억 구간&lt;/b&gt;입니다. 이 구간만 세율이 집값에 따라 올라가서, &lt;b&gt;&quot;6억 5천&quot;과 &quot;6억 9천&quot;의 세금이 다릅니다.&lt;/b&gt;&lt;/p&gt;
+
+&lt;h2&gt;2. 계산이 귀찮으면 이 공식만&lt;/h2&gt;
+
+&lt;p&gt;&lt;b&gt;세율 = 1% + (집값 − 6억) ÷ 3억 × 2%&lt;/b&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;집값&lt;/th&gt;&lt;th&gt;세율&lt;/th&gt;&lt;th&gt;취득세(지방교육세 포함)&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;6억&lt;/td&gt;&lt;td&gt;1.0%&lt;/td&gt;&lt;td&gt;약 660만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;6억 5천&lt;/td&gt;&lt;td&gt;약 1.33%&lt;/td&gt;&lt;td&gt;약 953만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8억&lt;/td&gt;&lt;td&gt;약 2.33%&lt;/td&gt;&lt;td&gt;약 2,053만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;9억&lt;/td&gt;&lt;td&gt;3.0%&lt;/td&gt;&lt;td&gt;약 2,970만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;같은 1주택인데 &lt;b&gt;6억과 9억 사이에서 세금이 4.5배&lt;/b&gt; 벌어집니다.&lt;/p&gt;
+
+&lt;h2&gt;3. 추가로 붙는 것들&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;농어촌특별세&lt;/b&gt; — 전용면적 85㎡ 초과 아파트는 0.2% 추가(예: 8억 → 160만 원)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;지방교육세&lt;/b&gt; — 취득세의 10%(위 표에 포함)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;등기비용&lt;/b&gt; — 등록면허세·채권·법무사 비용(보통 50~100만 원)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;중개보수&lt;/b&gt; — 6억~9억 구간 요율 확인(협의 가능)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;4. 줄일 수 있는 감면 2가지&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;감면&lt;/th&gt;&lt;th&gt;내용&lt;/th&gt;&lt;th&gt;조건&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;생애최초&lt;/b&gt;&lt;/td&gt;&lt;td&gt;최대 200만 원 감면&lt;/td&gt;&lt;td&gt;무주택 세대 + 취득가·소득 요건 충족&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;출산·양육&lt;/b&gt;&lt;/td&gt;&lt;td&gt;일정 금액 감면(요건 확인 필요)&lt;/td&gt;&lt;td&gt;출산·입양 가구, 취득 시기 요건&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;⚠️ 두 감면 모두 &lt;b&gt;세부 요건·한도가 자주 바뀝니다.&lt;/b&gt; 계약 전에 &lt;b&gt;위택스(wetax.go.kr)&lt;/b&gt; 또는 구청 세무과에 내 조건으로 문의하는 게 가장 정확합니다.&lt;/p&gt;
+
+&lt;h2&gt;5. 다주택이면 이야기가 완전히 달라집니다&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;세율&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;1주택&lt;/td&gt;&lt;td&gt;1~3%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2주택(조정지역)&lt;/td&gt;&lt;td&gt;8%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3주택 이상(조정지역)&lt;/td&gt;&lt;td&gt;12%&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;일시적 2주택(요건 충족)&lt;/td&gt;&lt;td&gt;1~3% (기존 주택 처분 조건)&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;즉 &lt;b&gt;같은 8억 아파트라도 취득세만 보면 1주택은 약 1,870만 원, 2주택(조정)은 6,400만 원&lt;/b&gt;입니다(지방교육세 별도). 이 차이는 협상 테이블에서 반드시 고려해야 합니다.&lt;/p&gt;
+
+&lt;h2&gt;6. 정리 (3줄)&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;1주택 취득세는 &lt;b&gt;6억 이하 1%, 9억 초과 3%&lt;/b&gt;, 그 사이는 슬라이딩.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;85㎡ 초과면 농어촌특별세 0.2%&lt;/b&gt;가 더 붙습니다.&lt;/li&gt;
+&lt;li&gt;생애최초·출산 감면은 요건이 자주 바뀌니 &lt;b&gt;계약 전 위택스·구청 확인&lt;/b&gt;이 필수.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;b&gt;오늘 할 일:&lt;/b&gt; 살 예정인 집 가격으로 위 계산식에 넣어보세요. 6억~9억 경계라면 &lt;b&gt;가격 협상에서 취득세 차이를 근거로 쓸 수 있습니다.&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;※ 본 글은 정보 제공 목적이며 세무 자문이 아닙니다. 세율·감면 요건은 개정될 수 있으니 국세청·위택스에서 최신 기준을 확인하세요.&lt;/em&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>퇴직금·퇴직소득세 (1242번)</span><button onclick="cp('b3',this)">📋 HTML 복사</button></div><pre id="b3">&lt;h2&gt;퇴직금 계산·수령 총정리 — 퇴직소득세는 이렇게 나옵니다&lt;/h2&gt;
+
+&lt;p&gt;퇴직금은 &lt;b&gt;근속연수와 평균임금&lt;/b&gt;으로 정해지고, 세금은 일반 소득세와 &lt;b&gt;계산 방식이 완전히 다릅니다.&lt;/b&gt; 미리 알면 수령 방법을 고를 수 있습니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 퇴직금 계산 공식&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;항목&lt;/th&gt;&lt;th&gt;내용&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;공식&lt;/td&gt;&lt;td&gt;&lt;b&gt;1일 평균임금 × 30일 × (총 근속일수 ÷ 365)&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;평균임금&lt;/td&gt;&lt;td&gt;퇴직 전 3개월 임금 총액 ÷ 그 기간 일수&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;포함 항목&lt;/td&gt;&lt;td&gt;급여·상여금·수당(연간 상여는 3/12 반영)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;근속 1년 미만&lt;/td&gt;&lt;td&gt;원칙적으로 지급 의무 없음(계약·취업규칙 확인)&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;예: 월 300만 원, 5년 근속 → 300만 × (5년) = &lt;b&gt;약 1,500만 원&lt;/b&gt; 수준(상여·수당 포함 시 증가).&lt;/p&gt;
+
+&lt;h2&gt;2. 퇴직소득세 구조 (일반 소득세와 다름)&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;퇴직소득금액&lt;/b&gt; = 퇴직금 − 비과세 소득&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;근속연수 공제&lt;/b&gt; 적용(근속이 길수록 공제 큼)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;근속연수공제 후 12 ÷ 근속연수&lt;/b&gt;를 곱해 환산급여 계산 → 환산급여공제 → 세율 적용 → 다시 &lt;b&gt;근속연수 ÷ 12&lt;/b&gt;를 곱해 최종 세액 산출&lt;/li&gt;
+&lt;li&gt;결과적으로 &lt;b&gt;같은 금액이라도 근속이 길면 세금이 크게 줄어듭니다&lt;/b&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;※ 환산 방식·공제 한도는 개정 이력이 있으니 &lt;b&gt;국세청 계산기·원천징수영수증&lt;/b&gt;으로 확인하세요.&lt;/p&gt;
+
+&lt;h2&gt;3. 수령 방법 3가지 비교&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;방법&lt;/th&gt;&lt;th&gt;세금&lt;/th&gt;&lt;th&gt;특징&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;일시금&lt;/b&gt;&lt;/td&gt;&lt;td&gt;퇴직소득세(분리과세)&lt;/td&gt;&lt;td&gt;목돈 활용 가능, 세금 즉시&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;IRP 이체&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;과세 이연&lt;/b&gt;(이체 시 미과세)&lt;/td&gt;&lt;td&gt;나중에 연금으로 받으면 저율&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;연금 수령&lt;/b&gt;&lt;/td&gt;&lt;td&gt;이연된 &lt;b&gt;퇴직소득세의 70%&lt;/b&gt;(연금 수령 11년 차부터 60%, 연금수령한도 이내) — 나이별 5.5~3.3%는 운용수익·세액공제 받은 납입금에 적용&lt;/td&gt;&lt;td&gt;55세 이후 나누어 받아 부담 완화&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;보통 &lt;b&gt;IRP로 이체 후 연금 수령&lt;/b&gt;이 세금상 유리하며, 중간에 해지하면 &lt;b&gt;과세 이연분 + 추징&lt;/b&gt;이 발생합니다.&lt;/p&gt;
+
+&lt;h2&gt;4. 놓치기 쉬운 5가지&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;IRP 이체 없이 퇴직금을 받으면&lt;/b&gt; 퇴직소득세를 바로 냅니다(제도·나이에 따라 IRP 이체가 의무인 경우가 있으니 회사에 확인)&lt;/li&gt;
+&lt;li&gt;중도 인출(주택 구입 등) 요건은 &lt;b&gt;폭이 제한적&lt;/b&gt; — 사전 확인&lt;/li&gt;
+&lt;li&gt;퇴직금은 &lt;b&gt;퇴직일로부터 14일 내&lt;/b&gt; 지급 의무(예외 합의 가능)&lt;/li&gt;
+&lt;li&gt;퇴직금 &lt;b&gt;체불&lt;/b&gt;은 노동청 진정 대상(임금체불)&lt;/li&gt;
+&lt;li&gt;건강보험 &lt;b&gt;피부양자&lt;/b&gt; 자격은 퇴직 후 소득 기준으로 재판정&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;5. 확인 서류&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;원천징수영수증(퇴직소득) — 세금 계산 근거&lt;/li&gt;
+&lt;li&gt;IRP 계좌 사본·이체 내역&lt;/li&gt;
+&lt;li&gt;재직증명서·급여명세서(퇴직금 산정 이의 시)&lt;/li&gt;
+&lt;li&gt;노동청 진정 시: 근로계약서·급여 이체 내역&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;6. 정리하면&lt;/h2&gt;
+&lt;p&gt;핵심은 &lt;b&gt;&quot;일시금 vs IRP 이체&quot;&lt;/b&gt; 선택입니다. 급하게 쓸 돈이 아니라면 &lt;b&gt;IRP 이체 후 55세 이후 연금 수령&lt;/b&gt;이 세금상 유리하고, 퇴직금 미지급 사유가 있으면 &lt;b&gt;14일 기한&lt;/b&gt;을 기억하세요.&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;※ 본 글은 정보 제공 목적이며 세무·법률 자문이 아닙니다. 개인 상황에 따라 결과가 달라지므로 국세청·노무사 확인을 권합니다.&lt;/i&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>상가·오피스텔 임대 (1241번)</span><button onclick="cp('b4',this)">📋 HTML 복사</button></div><pre id="b4">&lt;h2&gt;상가·오피스텔 임대 — 세금과 수익률 계산&lt;/h2&gt;
+
+&lt;p&gt;&quot;월세 받는 건물&quot;은 세금 구조가 주택과 다릅니다. &lt;b&gt;부가세·종합소득세·건강보험료&lt;/b&gt;까지 계산해야 실제 수익이 보입니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 주택 vs 상가·오피스텔 (세금 차이)&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;주택 임대&lt;/th&gt;&lt;th&gt;상가·상업용 오피스텔&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;부가가치세&lt;/td&gt;&lt;td&gt;없음&lt;/td&gt;&lt;td&gt;&lt;b&gt;있음&lt;/b&gt;(임대료의 10%, 상가·업무용은 과세)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;소득 종류&lt;/td&gt;&lt;td&gt;주택임대소득(분리과세 가능)&lt;/td&gt;&lt;td&gt;&lt;b&gt;사업소득&lt;/b&gt;(종합과세)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;필요경비&lt;/td&gt;&lt;td&gt;등록 60% / 미등록 50%&lt;/td&gt;&lt;td&gt;실제 경비 증빙(장부)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;건강보험료&lt;/td&gt;&lt;td&gt;일부 영향&lt;/td&gt;&lt;td&gt;&lt;b&gt;사업소득으로 반영&lt;/b&gt;(부담 큼)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;취득세&lt;/td&gt;&lt;td&gt;1~3%&lt;/td&gt;&lt;td&gt;&lt;b&gt;4.6%&lt;/b&gt;(주택 외, 농특세·지방교육세 포함)&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;※ 세부 세율·과세 구분은 지자체·물건 용도(상업용/업무용)에 따라 다르므로 &lt;b&gt;확인 필요&lt;/b&gt;합니다.&lt;/p&gt;
+
+&lt;h2&gt;2. 실제 수익률 계산 (예시)&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;항목&lt;/th&gt;&lt;th&gt;금액(연)&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;임대료 수입&lt;/td&gt;&lt;td&gt;2,400만 원 (월 200만 원)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;공실 반영(10%)&lt;/td&gt;&lt;td&gt;-240만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;관리비·수선비&lt;/td&gt;&lt;td&gt;-200만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;재산세·보험&lt;/td&gt;&lt;td&gt;-100만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;세전 순수입&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;약 1,860만 원&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;소득세·건보료(약 25%)&lt;/td&gt;&lt;td&gt;-465만 원&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;b&gt;세후 순수입&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;약 1,395만 원&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;투자금 5억 원이면 &lt;b&gt;세후 수익률 약 2.8%&lt;/b&gt;입니다. 공실·대출이자까지 넣으면 더 낮아집니다.&lt;/p&gt;
+
+&lt;h2&gt;3. 임대인 필수 체크&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;부가세 과세 여부 판단&lt;/b&gt; — 상가는 과세, 오피스텔은 주거용(면세)·업무용(과세)에 따라 달라짐(사업자등록 필요)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;장부 기장&lt;/b&gt; — 필요경비 증빙이 세금을 좌우&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;임대차 계약서 보관&lt;/b&gt; — 수입금액·경비 증빙의 근거&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;건강보험료 시뮬레이션&lt;/b&gt; — 소득이 늘면 보험료가 함께 오름&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;대출 규제&lt;/b&gt; — 상업용은 주택과 규제가 다름&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;공실·임차인 리스크&lt;/b&gt; — 월세는 계약이 끊기면 수입 0&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;4. 자주 하는 오해 4가지&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&quot;월세는 무조건 분리과세&quot; → 상가는 &lt;b&gt;종합과세&lt;/b&gt;입니다&lt;/li&gt;
+&lt;li&gt;&quot;관리비는 다 경비&quot; → 임대인이 실제 부담하고 증빙한 지출만 경비(임차인 부담분 제외, 증축 등 자본적 지출은 경비 불가)&lt;/li&gt;
+&lt;li&gt;&quot;오피스텔은 주택&quot; → &lt;b&gt;주거용만 주택&lt;/b&gt;, 상업용은 사업소득&lt;/li&gt;
+&lt;li&gt;&quot;세금은 나중에&quot; → 부가세는 &lt;b&gt;정기 신고&lt;/b&gt; 의무, 늦으면 가산세&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;5. 시작 전 3단계&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;물건 용도(주거용/상업용) 확인 → 세금 구조 결정&lt;/li&gt;
+&lt;li&gt;세후 수익률 계산(공실·보험료·대출이자 포함)&lt;/li&gt;
+&lt;li&gt;사업자등록·과세유형(일반/간이) 결정 → 세무사 상담&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;6. 정리하면&lt;/h2&gt;
+&lt;p&gt;상가·오피스텔 임대는 &lt;b&gt;세금과 보험료를 빼고 계산&lt;/b&gt;해야 진짜 수익이 보입니다. 표시 수익률(연 5%)이 &lt;b&gt;세후 2~3%&lt;/b&gt;로 줄어드는 경우가 많습니다.&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;※ 본 글은 정보 제공 목적이며 세무·투자 자문이 아닙니다. 세율·기준은 개정될 수 있으니 국세청·세무사 확인이 필요합니다.&lt;/i&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>실비보험 (1239번)</span><button onclick="cp('b5',this)">📋 HTML 복사</button></div><pre id="b5">&lt;h2&gt;실비보험 총정리 — 세대별 차이와 청구 방법&lt;/h2&gt;
+
+&lt;p&gt;실손의료보험은 가입 시기에 따라 &lt;b&gt;보장 구조가 완전히 다릅니다.&lt;/b&gt; 자기부담금·비급여 보장 범위를 모르면 청구에서 손해를 봅니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 세대별 구분 (가입 시기)&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;세대&lt;/th&gt;&lt;th&gt;가입 시기&lt;/th&gt;&lt;th&gt;특징&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;1세대&lt;/td&gt;&lt;td&gt;~2009년 9월&lt;/td&gt;&lt;td&gt;자기부담 적음, 보험료 높음&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2세대&lt;/td&gt;&lt;td&gt;2009.10~2017.3&lt;/td&gt;&lt;td&gt;표준화, &lt;b&gt;비급여 보장 컸음&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3세대&lt;/td&gt;&lt;td&gt;2017.4~2021.6&lt;/td&gt;&lt;td&gt;비급여 특약 분리, 자기부담 상향&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4세대&lt;/td&gt;&lt;td&gt;2021.7~2026.5&lt;/td&gt;&lt;td&gt;급여·비급여 &lt;b&gt;분리형&lt;/b&gt;, 자기부담 20~30%&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;2026년 5월 6일부터 &lt;b&gt;5세대 실손&lt;/b&gt;이 판매되고 있고, 4세대 신규 가입은 종료되었습니다.&lt;/p&gt;
+
+&lt;h2&gt;2. 4세대 실손 구조 (핵심)&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;내용&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;급여&lt;/td&gt;&lt;td&gt;자기부담 &lt;b&gt;20%&lt;/b&gt; (최소 1만~2만 원)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;비급여&lt;/td&gt;&lt;td&gt;자기부담 &lt;b&gt;30%&lt;/b&gt;, 연간 한도(예: 5,000만 원) 적용&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5세대&lt;/td&gt;&lt;td&gt;2026.5.6~&lt;/td&gt;&lt;td&gt;4세대 대비 보험료 약 30% 저렴, 비중증 비급여 보장 축소, 임신·출산·발달장애 급여 보장 추가&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;재가입&lt;/td&gt;&lt;td&gt;5년 주기 도래 시 보험료 재산정(2021.7 가입자는 2026.7부터 5세대로 재가입, 같은 보험사 내 전환은 별도 심사 없음, 타사로 옮기면 신규 가입 심사)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;특징&lt;/td&gt;&lt;td&gt;비급여 사용량에 따라 &lt;b&gt;보험료가 인상/할인&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;※ 세부 비율·한도는 보험사·가입 시점에 따라 다르므로 &lt;b&gt;내 증권&lt;/b&gt;을 확인해야 합니다.&lt;/p&gt;
+
+&lt;h2&gt;3. 청구 방법 (순서)&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;서류 준비&lt;/b&gt;: 진료비 영수증·진료비 세부내역서·진단서(필요 시)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;청구 경로&lt;/b&gt;: 보험사 앱·홈페이지 또는 실손24(병원에서 바로 전송)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;본인부담 확인&lt;/b&gt;: 급여/비급여 구분과 자기부담금 차감 후 지급액 확인&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;지급 기한&lt;/b&gt;: 통상 접수 후 3영업일 내외(서류 보완 시 지연)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;청구 기한&lt;/b&gt;: 사고일로부터 &lt;b&gt;3년&lt;/b&gt; 이내(보험사·약관 확인)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;4. 청구가 거절되는 흔한 이유&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;면책 기간&lt;/b&gt;: 가입 후 일정 기간(예: 90일) 내 발생 질환&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;미용·성형 목적&lt;/b&gt; 또는 보장 제외 항목&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;입원 필요성 불인정&lt;/b&gt;(통원으로 충분 판단)&lt;/li&gt;
+&lt;li&gt;기존 질환(계약 전 알릴 의무 위반)&lt;/li&gt;
+&lt;li&gt;서류 미비(세부내역서 없이 금액만 제출)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;5. 보험료 아끼는 방법&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;비급여 과다 사용 자제&lt;/b&gt; — 4세대는 사용량에 따라 할증/할인&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;중복 가입 확인&lt;/b&gt; — 비슷한 보장 2개는 보험료만 부담&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;특약 정리&lt;/b&gt; — 실제 쓰지 않는 특약 삭제(단 해지 후 재가입 제약 확인)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;패밀리·청년 할인&lt;/b&gt; 등 적용 여부 확인&lt;/li&gt;
+&lt;li&gt;의료 이용은 &lt;b&gt;필요할 때 제대로&lt;/b&gt; — 진료 자체를 줄이는 건 손해&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;6. 정리하면&lt;/h2&gt;
+&lt;p&gt;핵심은 &lt;b&gt;&quot;내 실비가 몇 세대인지 + 자기부담률 + 비급여 보장 범위&quot;&lt;/b&gt;입니다. 증권에서 이 3개만 확인하면 청구·보험료 관리가 쉬워집니다.&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;※ 본 글은 정보 제공 목적이며 보험 자문이 아닙니다. 보장 내용은 상품·약관별로 다르니 보험사 또는 설계사에게 확인하세요.&lt;/i&gt;&lt;/p&gt;
+</pre></div><div class="c"><div class="h"><span>금융소득 종합과세 (1247번)</span><button onclick="cp('b6',this)">📋 HTML 복사</button></div><pre id="b6">&lt;h2&gt;이자·배당 2,000만 원 넘으면 세금이 확 달라집니다&lt;/h2&gt;
+
+&lt;p&gt;예금 이자와 배당금을 합쳐 &lt;b&gt;연 2,000만 원&lt;/b&gt;을 넘기는 순간, 세금 계산 방식이 바뀝니다. 이걸 모르고 있으면 &lt;b&gt;5월에 예상 못 한 세금 고지서&lt;/b&gt;를 받습니다.&lt;/p&gt;
+
+&lt;h2&gt;1. 기준선: 연 2,000만 원&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;구분&lt;/th&gt;&lt;th&gt;금융소득 합계&lt;/th&gt;&lt;th&gt;과세 방식&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;기준 이하&lt;/td&gt;&lt;td&gt;2,000만 원 이하&lt;/td&gt;&lt;td&gt;&lt;b&gt;원천징수로 끝&lt;/b&gt; (15.4%)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;기준 초과&lt;/td&gt;&lt;td&gt;2,000만 원 초과&lt;/td&gt;&lt;td&gt;&lt;b&gt;종합과세&lt;/b&gt;(다른 소득과 합산, 6~45% 누진세율)&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;핵심은 &lt;b&gt;2,000만 원까지는 14%가 유지&lt;/b&gt;되고, 초과분부터 다른 소득과 합산해 &lt;b&gt;누진세율(6~45%)&lt;/b&gt;이 적용된다는 점입니다. 다른 소득이 많을수록 초과분의 체감 세율이 올라갑니다.&lt;/p&gt;
+
+&lt;h2&gt;2. 계산 구조 (초과 시)&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;(A) 금융소득 전액을 다른 종합소득과 합산해 누진세율 적용&lt;/li&gt;
+&lt;li&gt;(B) 금융소득 2,000만 원까지는 14%, 초과분은 다른 종합소득과 합산해 누진세율 적용&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;(A)와 (B) 중 세액이 큰 쪽&lt;/b&gt;을 납부(비교과세)&lt;/li&gt;
+&lt;li&gt;소득이 높은 사람일수록 체감 세율이 크게 올라감&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;※ 세부 계산은 개인 소득 구조에 따라 다르므로 &lt;b&gt;국세청 홈택스 계산&lt;/b&gt; 또는 세무사 확인이 정확합니다.&lt;/p&gt;
+
+&lt;h2&gt;3. 어떤 소득이 합산되나&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;포함&lt;/th&gt;&lt;th&gt;제외(대체로)&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;예금·적금 이자&lt;/td&gt;&lt;td&gt;ISA 계좌 내 수익(비과세 한도 내)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;주식 배당금&lt;/td&gt;&lt;td&gt;연금저축·IRP 내 수익(과세 이연)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;채권 이자, MMF·RP 이자&lt;/td&gt;&lt;td&gt;해외주식 매매 차익(양도소득으로 별도)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ETF 분배금, 국내 상장 해외 ETF 매매차익(과세 대상, 국내주식형 ETF 매매차익은 비과세)&lt;/td&gt;&lt;td&gt;국내주식 매매 차익(대주주 외 비과세)&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;4. 미리 줄이는 방법 4가지&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;ISA 계좌 활용&lt;/b&gt; — 비과세·저율분리과세 한도로 금융소득 합산을 줄일 수 있습니다&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;연금저축·IRP로 이전&lt;/b&gt; — 과세 이연(연금 수령 시 저율)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;배당 시기 조정&lt;/b&gt; — 배당을 받는 연도를 분산해 2,000만 원 이하로 관리&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;고배당기업 분리과세 신청&lt;/b&gt; — 고배당기업(배당성향 40% 이상, 또는 25% 이상이면서 전년 대비 배당 증가) 배당은 2,000만 원 초과분도 분리과세를 선택할 수 있습니다(2,000만 원 이하 14%, 초과분 약 20~30% 수준). 종합소득세 신고 때 신청서를 내야 하며, 종합과세와 분리과세 중 유리한 쪽을 고를 수 있습니다(세부 요건·세율은 확인 필요).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;5. 대상자가 확인해야 할 것&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;금융소득 자료&lt;/b&gt; — 홈택스에서 지급명세서 조회(연말)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;배당 지급 내역&lt;/b&gt; — 증권사 연간 배당 내역&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;건강보험료 영향&lt;/b&gt; — 소득이 늘면 &lt;b&gt;보험료가 함께&lt;/b&gt; 오를 수 있습니다&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;5월 종합소득세 신고&lt;/b&gt; — 대상이면 신고 의무 발생&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;6. 정리 (3줄)&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;금융소득 &lt;b&gt;2,000만 원&lt;/b&gt;이 기준선 — 넘으면 종합과세로 전환됩니다.&lt;/li&gt;
+&lt;li&gt;초과분은 &lt;b&gt;다른 소득과 합산해 6~45% 누진세율&lt;/b&gt;이 적용됩니다.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;ISA·연금계좌&lt;/b&gt;로 옮기고 배당 연도를 분산하는 게 실질적인 절세 방법이며, &lt;b&gt;고배당기업 분리과세&lt;/b&gt;도 검토하세요.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;b&gt;오늘 할 일:&lt;/b&gt; 작년 이자·배당 합계를 홈택스 또는 증권사 앱에서 확인해보세요. 2,000만 원에 가깝다면 올해 안에 ISA·연금계좌 활용을 검토할 시점입니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;※ 본 글은 정보 제공 목적이며 세무 자문이 아닙니다. 과세 기준·비율은 개정될 수 있으니 국세청 자료를 확인하세요.&lt;/em&gt;&lt;/p&gt;
+</pre></div>
+<script>
+function cp(id,b){const t=document.getElementById(id).innerText;
+ const done=()=>{const o=b.textContent;b.textContent='✅ 복사됨';setTimeout(()=>b.textContent=o,1200);};
+ if(navigator.clipboard){navigator.clipboard.writeText(t).then(done,()=>fb(t,done));}else{fb(t,done);}}
+function fb(t,done){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();
+ try{document.execCommand('copy');done();}catch(x){alert('길게 눌러 직접 복사하세요');}a.remove();}
+</script></body></html>
