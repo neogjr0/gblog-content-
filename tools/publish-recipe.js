@@ -495,6 +495,42 @@ async function forceSetEditorContent(page, html) {
   return done;
 }
 
+
+// [v4] 대표이미지 업로드 후 '확인/적용' 버튼을 누르고 등록 여부를 검증
+async function confirmThumbnailUpload(page) {
+  // 1) 미리보기 이미지가 뜰 때까지 대기 (최대 8초)
+  let previewed = false;
+  for (let i = 0; i < 16; i++) {
+    await new Promise((r) => setTimeout(r, 500));
+    previewed = await page.evaluate(() => {
+      const sels = ['input.inp_g[type="file"]', '.thumb_area', '.wrap_thumb', '.layer_thumb'];
+      for (const s of sels) {
+        const root = document.querySelector(s);
+        if (!root) continue;
+        const box = root.closest('div') || root.parentElement;
+        if (box && box.querySelector('img[src^="http"], img[src^="blob"], img[src^="data:"]')) return true;
+      }
+      const any = document.querySelector('.thumb_area img, .wrap_thumb img, img.thumb');
+      return !!any;
+    }).catch(() => false);
+    if (previewed) break;
+  }
+  // 2) 확인/적용 버튼 클릭 시도 (있는 경우만)
+  await page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('button, a'));
+    for (const b of btns) {
+      const t = (b.textContent || '').trim();
+      if (['확인', '적용', '저장', '등록'].includes(t) && b.offsetParent !== null) {
+        const box = b.closest('.layer_thumb, .ReactModal__Content, [role="dialog"], .wrap_thumb');
+        if (box) { b.click(); return true; }
+      }
+    }
+    return false;
+  }).catch(() => false);
+  await new Promise((r) => setTimeout(r, 900));
+  return previewed;
+}
+
 // ===== 카테고리 자동 선택 (v3 — 정규화 매칭 + category-item ID) =====
 async function autoSelectCategory(page, category) {
   if (!category) return false;
@@ -663,7 +699,10 @@ async function publishOne(browser, cookies, itemDir) {
 
   if (hasThumb) {
     const b64 = fs.readFileSync(thumbPath).toString('base64');
-    const imgOk = await pasteFileIntoBody(page, b64, 'image/png', 'thumb.png', title);
+    const isPng = /\.png$/i.test(thumbPath);
+    const mime = isPng ? 'image/png' : 'image/jpeg';
+    const fname = isPng ? 'thumb.png' : 'thumb.jpg';
+    const imgOk = await pasteFileIntoBody(page, b64, mime, fname, title);
     if (!imgOk) console.log('  ⚠️ 대표이미지 본문 삽입 실패 — 발행 모달에서 직접 선택 필요');
   }
 
@@ -725,8 +764,12 @@ async function publishOne(browser, cookies, itemDir) {
       const fileInput = await page.$('input.inp_g[type="file"]');
       if (fileInput) {
         await fileInput.uploadFile(thumbPath);
-        console.log('  대표이미지 업로드함');
-        await new Promise((r) => setTimeout(r, 800));
+        console.log('  대표이미지 업로드 시작');
+        // ── [v4] 업로드 후 확인/적용 버튼 클릭 + 등록 검증 ──
+        const confirmed = await confirmThumbnailUpload(page);
+        console.log(confirmed
+          ? '  ✅ 대표이미지 등록 확인됨'
+          : '  ⚠️ 대표이미지 등록 확인 실패 — 발행 창에서 직접 선택해주세요.');
       } else {
         console.log('  ⚠️ 대표이미지 input을 못 찾음 — 직접 선택해주세요.');
       }
