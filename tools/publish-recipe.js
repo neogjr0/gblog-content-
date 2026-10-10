@@ -377,16 +377,77 @@ async function pasteHtmlIntoBody(page, html) {
   await new Promise((r) => setTimeout(r, 800));
   if (!result.ok) {
     console.log(`  ⚠️ 본문 붙여넣기 실패: ${result.reason}`);
-    return false;
   }
-  const textLen = await targetFrame
-    .evaluate((sel) => {
-      const target = document.querySelector(sel);
-      return target ? target.innerText.trim().length : 0;
-    }, matchedSelector)
-    .catch(() => 0);
-  console.log(`  본문 삽입됨 (글자수=${textLen})`);
-  return textLen > 20;
+
+  // ── [v2] 검증: 여러 신호로 판정 (에디터 버전 차이 대응 → 오탐 제거) ──
+  let sig = await measureEditor(targetFrame, matchedSelector);
+  console.log(`  본문 삽입됨 (글자수=${sig.text}, HTML=${sig.html}, 표=${sig.tables}, 이미지=${sig.imgs})`);
+  if (isBodyOk(sig)) return true;
+
+  // ── [v2] 2차 시도: TinyMCE API / innerHTML 직접 주입 ──
+  console.log('  ↻ 본문 2차 삽입 시도 (에디터 API)...');
+  const forced = await forceSetEditorContent(page, html);
+  if (forced) {
+    sig = await measureEditor(targetFrame, matchedSelector);
+    console.log(`  본문 2차 결과 (글자수=${sig.text}, HTML=${sig.html}, 표=${sig.tables}, 이미지=${sig.imgs})`);
+    if (isBodyOk(sig)) return true;
+  }
+  console.log('  ⚠️ 본문이 비어 있습니다 — 브라우저에서 직접 붙여넣어 주세요');
+  return false;
+}
+
+// 본문 존재 판정 (어느 하나라도 신호가 있으면 통과)
+function isBodyOk(sig) {
+  return !!(sig && (sig.text > 20 || sig.html > 200 || sig.tables > 0 || sig.imgs > 0));
+}
+
+// 에디터 상태 측정 (글자수·HTML길이·표·이미지)
+async function measureEditor(frame, sel) {
+  try {
+    return await frame.evaluate((s) => {
+      const t = document.querySelector(s) || document.querySelector('.mce-content-body') || document.body;
+      const text = (t && t.innerText ? t.innerText : '').trim().length;
+      const html = (t && t.innerHTML ? t.innerHTML : '').replace(/<[^>]+>/g, '').trim().length;
+      const q = (s2) => document.querySelectorAll(s2).length;
+      return { text: text, html: html, tables: q('.mce-content-body table') || q('table'), imgs: q('.mce-content-body img') || q('img') };
+    }, sel);
+  } catch (e) {
+    return { text: 0, html: 0, tables: 0, imgs: 0 };
+  }
+}
+
+// 가장 확실한 경로: TinyMCE API 또는 본문 요소에 직접 주입
+async function forceSetEditorContent(page, html) {
+  let done = false;
+  for (const frame of page.frames()) {
+    try {
+      const ok = await frame.evaluate((h) => {
+        try {
+          const tm = window.tinymce;
+          let ed = null;
+          if (tm) {
+            if (tm.activeEditor && typeof tm.activeEditor.setContent === 'function') ed = tm.activeEditor;
+            else if (typeof tm.get === 'function') ed = tm.get(0) || (tm.editors && tm.editors[0]) || null;
+          }
+          if (ed && typeof ed.setContent === 'function') {
+            ed.setContent(h, { format: 'html' });
+            if (typeof ed.fire === 'function') ed.fire('change');
+            return true;
+          }
+          const body = document.querySelector('.mce-content-body');
+          if (body) {
+            body.innerHTML = h;
+            body.dispatchEvent(new Event('input', { bubbles: true }));
+            return true;
+          }
+        } catch (e) { /* 다음 프레임 */ }
+        return false;
+      }, html);
+      if (ok) { done = true; break; }
+    } catch (e) { /* 무시 */ }
+  }
+  await new Promise((r) => setTimeout(r, 900));
+  return done;
 }
 
 // ===== 카테고리 자동 선택 (v3 — 정규화 매칭 + category-item ID) =====
