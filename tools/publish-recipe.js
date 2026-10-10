@@ -22,7 +22,7 @@ const path = require('path');
 const readline = require('readline');
 const { execFile, execSync } = require('child_process');
 
-// ===== [RECIPE] calc-*.zip 자동 설치 + 하루 2편 제한 (감시 창 없이 한 창으로 동작) =====
+// ===== [RECIPE] recipe-*.zip 자동 설치 + 하루 2편 제한 (감시 창 없이 한 창으로 동작) =====
 const ZIP_PREFIX = 'recipe-';
 const MAX_PER_DAY = 2;                       // 하루 최대 발행 편수
 const GAP_MS = 10 * 60 * 1000;               // 편 사이 최소 간격 10분
