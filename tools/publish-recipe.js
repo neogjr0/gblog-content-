@@ -380,7 +380,7 @@ async function pasteHtmlIntoBody(page, html) {
   }
 
   // ── [v2] 검증: 여러 신호로 판정 (에디터 버전 차이 대응 → 오탐 제거) ──
-  let sig = await measureEditor(targetFrame, matchedSelector);
+  let sig = await measureEditorDeep(page, targetFrame, matchedSelector);
   console.log(`  본문 삽입됨 (글자수=${sig.text}, HTML=${sig.html}, 표=${sig.tables}, 이미지=${sig.imgs})`);
   if (isBodyOk(sig)) return true;
 
@@ -388,12 +388,57 @@ async function pasteHtmlIntoBody(page, html) {
   console.log('  ↻ 본문 2차 삽입 시도 (에디터 API)...');
   const forced = await forceSetEditorContent(page, html);
   if (forced) {
-    sig = await measureEditor(targetFrame, matchedSelector);
+    sig = await measureEditorDeep(page, targetFrame, matchedSelector);
     console.log(`  본문 2차 결과 (글자수=${sig.text}, HTML=${sig.html}, 표=${sig.tables}, 이미지=${sig.imgs})`);
     if (isBodyOk(sig)) return true;
   }
   console.log('  ⚠️ 본문이 비어 있습니다 — 브라우저에서 직접 붙여넣어 주세요');
   return false;
+}
+
+
+// 모든 프레임에서 표 개수 합산
+async function countTablesAllFrames(page) {
+  let n = 0;
+  for (const frame of page.frames()) {
+    try {
+      n += await frame.evaluate(() => document.querySelectorAll('table').length);
+    } catch (e) { /* 무시 */ }
+  }
+  return n;
+}
+
+// 모든 프레임을 합쳐 본문 신호 수집 (프레임 선택 오류로 인한 오탐 방지)
+async function measureAllFrames(page) {
+  let text = 0, tables = 0, imgs = 0;
+  for (const frame of page.frames()) {
+    try {
+      const r = await frame.evaluate(() => {
+        const b = document.querySelector('.mce-content-body') || document.body;
+        return {
+          t: (b && b.innerText ? b.innerText.trim().length : 0),
+          tb: document.querySelectorAll('table').length,
+          i: document.querySelectorAll('img').length,
+        };
+      });
+      if (r.t > text) text = r.t;
+      tables += r.tb;
+      imgs += r.i;
+    } catch (e) { /* 무시 */ }
+  }
+  return { text: text, html: text, tables: tables, imgs: imgs };
+}
+
+// 프레임 지정 측정 + 전체 프레임 측정을 합쳐 판정 (오탐 제거)
+async function measureEditorDeep(page, frame, sel) {
+  const a = await measureEditor(frame, sel);
+  const b = await measureAllFrames(page);
+  return {
+    text: Math.max(a.text, b.text),
+    html: Math.max(a.html, b.html),
+    tables: Math.max(a.tables, b.tables),
+    imgs: Math.max(a.imgs, b.imgs),
+  };
 }
 
 // 본문 존재 판정 (어느 하나라도 신호가 있으면 통과)
@@ -629,23 +674,25 @@ async function publishOne(browser, cookies, itemDir) {
   }
 
   if (srcTableCount > 0) {
-    try {
-      let liveTableCount = 0;
-      for (const frame of page.frames()) {
-        try {
-          liveTableCount += await frame.evaluate(() => {
-            const body = document.querySelector('.mce-content-body');
-            return body ? body.querySelectorAll('table').length : 0;
-          });
-        } catch (e) { /* 무시 */ }
-      }
-      if (liveTableCount > 0) {
-        console.log(`  ✅ 에디터에 표 ${liveTableCount}개 살아있음`);
+    // ── [v3] 표 검증: 모든 프레임을 최대 12초간 재확인 (렌더링 지연 대응) ──
+    let liveTableCount = 0;
+    for (let attempt = 0; attempt < 12; attempt++) {
+      liveTableCount = await countTablesAllFrames(page);
+      if (liveTableCount > 0) break;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+    if (liveTableCount > 0) {
+      console.log(`  ✅ 에디터에 표 ${liveTableCount}개 살아있음`);
+    } else {
+      // 표가 안 보여도 본문이 들어갔으면 그대로 진행 (오탐으로 사람을 세우지 않음)
+      const sigAll = await measureAllFrames(page);
+      if (isBodyOk(sigAll)) {
+        console.log(`  ℹ️ 표 개수는 확인 안 됨, 그러나 본문은 정상 (글자수=${sigAll.text}, 이미지=${sigAll.imgs}) — 그대로 진행`);
       } else {
-        console.log('  ⚠️ 소스에는 <table>이 있었는데 에디터에서 표가 안 보임 — 표가 깨졌을 수 있음.');
-        await waitForEnter('  표 상태를 브라우저에서 직접 확인했으면 Enter...');
+        console.log('  ⚠️ 에디터 본문이 비어 있습니다 — 표가 아니라 본문 문제입니다.');
+        await waitForEnter('  브라우저에서 직접 확인/붙여넣기 했으면 Enter...');
       }
-    } catch (e) { /* 무시 */ }
+    }
   }
 
   try {
@@ -830,6 +877,14 @@ async function processAllPending(browser, cookies, { onConnExhausted } = {}) {
     }
     if (itemDir !== rawDir) {
       console.log(`  [${name}] 중첩 폴더 감지 → 실제 글 폴더: ${path.relative(QUEUE_DIR, itemDir)}`);
+    }
+
+    // ── [v3] 항목별 하루 한도 확인 — queue에 여러 개가 있어도 몰아 발행하지 않음 ──
+    const gateItem = canPublishNow();
+    if (!gateItem.ok) {
+      console.log(`  ⏸ ${gateItem.why}`);
+      console.log(`     남은 항목은 자정 이후 자동 재개됩니다 (queue에 그대로 보관).`);
+      break;
     }
     processedAny = true;
     // v10: 일시적 차단/오류 대비 — 글 1건당 최대 3회 시도 (60초 간격)
