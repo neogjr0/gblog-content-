@@ -800,7 +800,7 @@ async function processAllPending(browser, cookies, { onConnExhausted } = {}) {
         // v12: 세션 만료 → 재시작/실패 처리 없이, 쿠키를 지금 갱신하면 그대로 재시도
         if (/SESSION_EXPIRED|세션.*만료|login|signin/i.test(String(e.message))) {
           console.log('  🔑 세션이 만료되었습니다. 재시작 필요 없어요!');
-          console.log('     → Cookie-Editor로 calc-note.tistory.com 쿠키를 다시 내보내 cookies.json에 덮어쓰세요.');
+          console.log('     → Cookie-Editor로 soeasycook.tistory.com 쿠키를 다시 내보내 cookies.json에 덮어쓰세요.');
           console.log('     → 저장하는 순간 자동 감지되며, 아래 Enter를 누르면 새 쿠키로 바로 재시도합니다.');
           try { await systemBeep(); } catch (be) { /* 무시 */ }
           lastCookieMtime = -1; // 다음 시도에서 무조건 재로드
